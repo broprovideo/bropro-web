@@ -6,7 +6,7 @@
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 		</button>
-		<a data-ui-sref="home" class="navbar-brand">IdeaSmith.co</a>
+		<a data-ui-sref="home.index" class="navbar-brand">IdeaSmith.co</a>
 	</div>
 	<nav class="collapse navbar-collapse" collapse="!isCollapsed" role="navigation">
 		<ul class="nav navbar-nav" data-ng-if="menu.shouldRender(authentication.user);">
@@ -40,16 +40,16 @@
 				</a>
 				<ul class="dropdown-menu">
 					<li data-ui-sref-active="active">
-						<a data-ui-sref="settings.profile">Edit Profile</a>
+						<a data-ui-sref="home.settings.profile">Edit Profile</a>
 					</li>
 					<li data-ui-sref-active="active">
-						<a data-ui-sref="settings.picture">Change Profile Picture</a>
+						<a data-ui-sref="home.settings.picture">Change Profile Picture</a>
 					</li>
 					<li data-ui-sref-active="active" data-ng-show="authentication.user.provider === 'local'">
-						<a data-ui-sref="settings.password">Change Password</a>
+						<a data-ui-sref="home.settings.password">Change Password</a>
 					</li>
 					<li data-ui-sref-active="active">
-						<a data-ui-sref="settings.accounts">Manage Social Accounts</a>
+						<a data-ui-sref="home.settings.accounts">Manage Social Accounts</a>
 					</li>
 					<li class="divider"></li>
 					<li>
