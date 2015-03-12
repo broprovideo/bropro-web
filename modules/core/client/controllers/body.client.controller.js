@@ -4,6 +4,5 @@ angular.module('core').controller('BodyController', ['$scope', '$state', 'Authen
 	function($scope, $state, Authentication) {
 		// Expose view variables
 		$scope.$state = $state;
-		console.log($state);
 	}
 ]);
