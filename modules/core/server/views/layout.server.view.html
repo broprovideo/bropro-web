@@ -47,24 +47,20 @@
 	<![endif]-->
 </head>
 
-<body class="ng-cloak">
-	<header data-ng-include="'/modules/core/views/header.client.view.html'" class="navbar navbar-fixed-top navbar-inverse"></header>
-	<section class="content">
-		<section class="container">
-			{% block content %}{% endblock %}
-		</section>
-	</section>
+<body data-ng-controller="BodyController" class="ng-cloak">
+	<header data-ng-include="'/modules/core/views/header.client.view.html'" class="navbar navbar-inverse" ng-class="{white: true}"></header>
+	{% block content %}{% endblock %}
 
 	<!--Embedding The User Object-->
 	<script type="text/javascript">
 		var user = {{ user | json | safe }};
 	</script>
-	
+
 	<!--Load The Socket.io File-->
 	<script type="text/javascript" src="/socket.io/socket.io.js"></script>
 
 	<!--Application JavaScript Files-->
-	{% for jsFile in jsFiles %}<script type="text/javascript" src="{{jsFile}}"></script>{% endfor %} 
+	{% for jsFile in jsFiles %}<script type="text/javascript" src="{{jsFile}}"></script>{% endfor %}
 
 	{% if process.env.NODE_ENV === 'development' %}
 	<!--Livereload script rendered -->
