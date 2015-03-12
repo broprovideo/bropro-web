@@ -17,7 +17,7 @@
 					<div class="formy">
 						<div class="row">
 							<div class="col-md-12">
-								<form role="form" data-ng-submit="signup()" >
+								<form role="form" data-ng-submit="signup()">
 									<div class="form-group">
 										<label for="email">Email address</label>
 										<input type="email" id="email" name="email" class="form-control" data-ng-model="credentials.email" placeholder="Email">
@@ -45,7 +45,6 @@
 										<strong data-ng-bind="error"></strong>
 									</div>
 
-
 								</form>
 							</div>
 						</div>
@@ -53,7 +52,7 @@
 				</div>
 				<div class="already-account">
 					Already have an account?
-					<a data-ui-sref="authentication.signin" class="show-signup">Sign in here</a>
+					<a data-ui-sref="authentication.signin">Sign in here</a>
 				</div>
 			</div>
 		</div>
