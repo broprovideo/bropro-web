@@ -1,14 +1,8 @@
 <section id="index" data-ng-controller="HomeController">
 	<div id="hero">
-		<a class="slide-nav prev" href="#">Prev</a>
-		<a class="slide-nav next" href="#">Next</a>
-		<nav>
-			<a class="active" href="#"></a>
-			<a href="#"></a>
-			<a href="#"></a>
-		</nav>
-		<div class="slides">
-			<div class="slide first active">
+		<carousel interval="5000" class="slides">
+
+			<slide class="carousel-item first">
 				<div class="bg"></div>
 				<div class="container">
 					<div class="row">
@@ -32,8 +26,8 @@
 						</div>
 					</div>
 				</div>
-			</div>
-			<div class="slide second">
+			</slide>
+			<slide class="carousel-item second" >
 				<div class="bg"></div>
 				<div class="container">
 					<h1 class="hero-text">Get the best technology videos online for free.</h1>
@@ -46,33 +40,26 @@
 						</div>
 					</div>
 				</div>
-			</div>
-			<div class="slide third">
+			</slide>
+			<slide class="carousel-item third" >
 				<div class="bg"></div>
 				<div class="container">
 					<h1 class="hero-text animated fadeInLeft">
 						Track any data point in your app in real time.
 					</h1>
 					<p class="sub-text animated fadeInLeft">
-						Try our 30 day trial so you can check out all the features that we offer, no contracts
-						or credit card required.
+						Try our 30 day trial so you can check out all the features that we offer, no contracts or credit card required.
 					</p>
 					<div class="cta animated fadeInRight">
 						<a href="features.html" class="button-outline">See the tour</a>
 						<a href="signup.html" class="button">Sign up free</a>
 					</div>
 				</div>
-			</div>
-		</div>
+			</slide>
 
-		<div class="video-modal">
-			<div class="wrap">
-				<iframe src="http://player.vimeo.com/video/22439234" width="620" height="350" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-			</div>
-		</div>
+		</carousel>
+
 	</div>
-
-
 	<div id="features">
 		<div class="container">
 			<div class="row header">
@@ -85,8 +72,7 @@
 				<div class="col-md-6 info">
 					<h4>You don't need to have great technical experience to use your product.</h4>
 					<p>
-						Whether you want to fill this paragraph with some text like I'm doing right now, this place
-						is perfect to describe some features or anything you want - React has a complete solution for you.
+						Whether you want to fill this paragraph with some text like I'm doing right now, this place is perfect to describe some features or anything you want - React has a complete solution for you.
 					</p>
 				</div>
 				<div class="col-md-6 image">
@@ -101,8 +87,7 @@
 						You have complete control over the look & feel of your website, we offer the best quality so you take your site up and running in no time.
 					</p>
 					<p>
-						Write some text here to explain the features of your site or application, it
-						has lots of uses.
+						Write some text here to explain the features of your site or application, it has lots of uses.
 					</p>
 				</div>
 				<div class="col-md-6 image">
@@ -278,12 +263,11 @@
 				<div class="col-sm-6">
 					<div class="testimonial pull-right">
 						<div class="quote">
-							I am just quoting some stuff but I am seriously happy about this product. Has a lot of powerful
-							features and is so easy to set up, I could stay customizing it day and night, it's just so much fun!
+							I am just quoting some stuff but I am seriously happy about this product. Has a lot of powerful features and is so easy to set up, I could stay customizing it day and night, it's just so much fun!
 							<div class="arrow-down">
-				                <div class="arrow"></div>
-				                <div class="arrow-border"></div>
-				            </div>
+								<div class="arrow"></div>
+								<div class="arrow-border"></div>
+							</div>
 						</div>
 						<div class="author">
 							<img src="/modules/core/img/testimonials/testimonial1.jpg" class="pic" alt="testimonial1" />
@@ -297,9 +281,9 @@
 						<div class="quote">
 							This thing is one of those tools that everybody should be using. I really like it and with this ease to use, you can kickstart your projects and apps and just focus on your business!
 							<div class="arrow-down">
-				                <div class="arrow"></div>
-				                <div class="arrow-border"></div>
-				            </div>
+								<div class="arrow"></div>
+								<div class="arrow-border"></div>
+							</div>
 						</div>
 						<div class="author">
 							<img src="/modules/core/img/testimonials/testimonial2.jpg" class="pic" alt="testimonial2" />
@@ -347,62 +331,62 @@
 				<div class="col-sm-3 menu">
 					<h3>Overview</h3>
 					<ul>
-	      				<li>
-	          				<a href="features.html">Features</a>
-	        			</li>
-	        			<li>
-	        				<a href="services.html">Services</a>
-	        			</li>
-	        			<li>
-	          				<a href="pricing.html">Pricing</a>
-	        			</li>
-	        			<li>
-	          				<a href="support.html">Support</a>
-	        			</li>
-	        			<li>
-	          				<a href="blog.html">Blog</a>
-	        			</li>
-	        			<li>
-	          				<a href="blog.html">Coming soon</a>
-	        			</li>
-	      			</ul>
+						<li>
+							<a href="features.html">Features</a>
+						</li>
+						<li>
+							<a href="services.html">Services</a>
+						</li>
+						<li>
+							<a href="pricing.html">Pricing</a>
+						</li>
+						<li>
+							<a href="support.html">Support</a>
+						</li>
+						<li>
+							<a href="blog.html">Blog</a>
+						</li>
+						<li>
+							<a href="blog.html">Coming soon</a>
+						</li>
+					</ul>
 				</div>
 				<div class="col-sm-3 menu">
 					<h3>Menu</h3>
 					<ul>
-	      				<li>
-	          				<a href="features.html">About us</a>
-	        			</li>
-	        			<li>
-	        				<a href="services.html">Contact us</a>
-	        			</li>
-	        			<li>
-	          				<a href="aboutus.html">Jobs</a>
-	          				<a href="aboutus.html" class="hiring">
+						<li>
+							<a href="features.html">About us</a>
+						</li>
+						<li>
+							<a href="services.html">Contact us</a>
+						</li>
+						<li>
+							<a href="aboutus.html">Jobs</a>
+							<a href="aboutus.html" class="hiring">
 	          					We're hiring!
 	          				</a>
-	        			</li>
-	        			<li>
-	          				<a href="support.html">Portfolio</a>
-	        			</li>
-	        			<li>
-	          				<a href="blog.html">Status</a>
-	        			</li>
-	      			</ul>
+						</li>
+						<li>
+							<a href="support.html">Portfolio</a>
+						</li>
+						<li>
+							<a href="blog.html">Status</a>
+						</li>
+					</ul>
 				</div>
 				<div class="col-sm-2 menu">
 					<h3>Social</h3>
 					<ul>
-	      				<li>
-	          				<a href="features.html">Youtube</a>
-	        			</li>
-	        			<li>
-	        				<a href="services.html">Facebook</a>
-	        			</li>
-	        			<li>
-	          				<a href="pricing.html">Twitter</a>
-	        			</li>
-	      			</ul>
+						<li>
+							<a href="features.html">Youtube</a>
+						</li>
+						<li>
+							<a href="services.html">Facebook</a>
+						</li>
+						<li>
+							<a href="pricing.html">Twitter</a>
+						</li>
+					</ul>
 				</div>
 				<div class="col-sm-4 newsletter">
 					<div class="signup clearfix">
