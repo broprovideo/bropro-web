@@ -8,12 +8,12 @@
 				<a data-ng-repeat="video in videos"  data-ui-sref="home.videos.view({videoId: video._id})" class="list-group-item">
 					<small class="list-group-item-text">
 						Posted on
-						<span data-ng-bind="home.video.created | date:'mediumDate'"></span>
+						<span data-ng-bind="video.created | date:'mediumDate'"></span>
 						by
-						<span data-ng-bind="home.video.user.displayName"></span>
+						<span data-ng-bind="video.user.displayName"></span>
 					</small>
-					<h4 class="list-group-item-heading" data-ng-bind="home.video.title"></h4>
-					<p class="list-group-item-text" data-ng-bind="home.video.content"></p>
+					<h4 class="list-group-item-heading" data-ng-bind="video.title"></h4>
+					<p class="list-group-item-text" data-ng-bind="video.content"></p>
 				</a>
 			</div>
 			<div class="alert alert-warning text-center" data-ng-if="videos.$resolved && !videos.length">

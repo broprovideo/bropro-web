@@ -4,6 +4,7 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose'),
+	shortid = require('shortid'),
 	Schema = mongoose.Schema;
 
 /**
@@ -14,12 +15,17 @@ var VideoSchema = new Schema({
 		type: Date,
 		default: Date.now
 	},
+	id: {
+		type: String,
+		default: shortid.generate(),
+		index: true
+	},
 	title: {
 		type: String,
 		default: '',
-		trim: true,
-		required: 'Title cannot be blank'
+		trim: true
 	},
+	videos: {},
 	content: {
 		type: String,
 		default: '',

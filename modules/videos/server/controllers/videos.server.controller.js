@@ -5,7 +5,7 @@
  */
 var path = require('path'),
 	mongoose = require('mongoose'),
-	Article = mongoose.model('Article'),
+	Video = mongoose.model('Video'),
 	crypto = require('crypto'),
 	errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
@@ -26,90 +26,90 @@ var createS3Hmac = function(data) {
 }
 
 /**
- * Create a article
+ * Create a video
  */
 exports.create = function(req, res) {
-	var article = new Article(req.body);
-	article.user = req.user;
+	var video = new Video(req.body);
+	video.user = req.user;
 
-	article.save(function(err) {
+	video.save(function(err) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
-			res.json(article);
+			res.json(video);
 		}
 	});
 };
 
 /**
- * Show the current article
+ * Show the current video
  */
 exports.read = function(req, res) {
-	res.json(req.article);
+	res.json(req.video);
 };
 
 /**
- * Update a article
+ * Update a video
  */
 exports.update = function(req, res) {
-	var article = req.article;
+	var video = req.video;
 
-	article.title = req.body.title;
-	article.content = req.body.content;
+	video.title = req.body.title;
+	video.content = req.body.content;
 
-	article.save(function(err) {
+	video.save(function(err) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
-			res.json(article);
+			res.json(video);
 		}
 	});
 };
 
 /**
- * Delete an article
+ * Delete an video
  */
 exports.delete = function(req, res) {
-	var article = req.article;
+	var video = req.video;
 
-	article.remove(function(err) {
+	video.remove(function(err) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
-			res.json(article);
+			res.json(video);
 		}
 	});
 };
 
 /**
- * List of Articles
+ * List of Videos
  */
 exports.list = function(req, res) {
-	Article.find().sort('-created').populate('user', 'displayName').exec(function(err, articles) {
+	Video.find().sort('-created').populate('user', 'displayName').exec(function(err, videos) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
-			res.json(articles);
+			res.json(videos);
 		}
 	});
 };
 
 /**
- * Article middleware
+ * Video middleware
  */
-exports.articleByID = function(req, res, next, id) {
-	Article.findById(id).populate('user', 'displayName').exec(function(err, article) {
+exports.videoByID = function(req, res, next, id) {
+	Video.findById(id).populate('user', 'displayName').exec(function(err, video) {
 		if (err) return next(err);
-		if (!article) return next(new Error('Failed to load article ' + id));
-		req.article = article;
+		if (!video) return next(new Error('Failed to load video ' + id));
+		req.video = video;
 		next();
 	});
 };

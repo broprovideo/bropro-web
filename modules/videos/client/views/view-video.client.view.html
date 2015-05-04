@@ -2,10 +2,10 @@
 	<section class="container">
 		<section data-ng-controller="VideosController" data-ng-init="findOne()">
 			<div class="page-header">
-				<h1 data-ng-bind="video.title"></h1>
+				<h1 data-ng-bind="video.id"></h1>
 			</div>
 			<div class="pull-right" data-ng-show="authentication.user._id == video.user._id">
-				<a class="btn btn-primary" data-ui-sref="home.video.edit({videoId: video._id})">
+				<a class="btn btn-primary" data-ui-sref="home.videos.edit({videoId: video._id})">
 					<i class="glyphicon glyphicon-edit"></i>
 				</a>
 				<a class="btn btn-primary" data-ng-click="remove();">

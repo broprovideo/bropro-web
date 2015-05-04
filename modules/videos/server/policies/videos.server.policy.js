@@ -9,7 +9,7 @@ var acl = require('acl');
 acl = new acl(new acl.memoryBackend());
 
 /**
- * Invoke Articles Permissions
+ * Invoke Videos Permissions
  */
 exports.invokeRolesPolicies = function() {
 	acl.allow([{
@@ -43,13 +43,13 @@ exports.invokeRolesPolicies = function() {
 };
 
 /**
- * Check If Articles Policy Allows
+ * Check If Videos Policy Allows
  */
 exports.isAllowed = function(req, res, next) {
 	var roles = (req.user) ? req.user.roles : ['guest'];
 
-	// If an article is being processed and the current user created it then allow any manipulation
-	if (req.article && req.user && req.article.user.id === req.user.id) {
+	// If an video is being processed and the current user created it then allow any manipulation
+	if (req.video && req.user && req.video.user.id === req.user.id) {
 		return next();
 	}
 

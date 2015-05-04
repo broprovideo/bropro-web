@@ -1,6 +1,6 @@
 'use strict';
 
-// Configuring the Articles module
+// Configuring the Video module
 angular.module('videos').run(['Menus',
 	function(Menus) {
 		// Add the videos dropdown item
