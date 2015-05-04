@@ -6,7 +6,24 @@
 var path = require('path'),
 	mongoose = require('mongoose'),
 	Article = mongoose.model('Article'),
+	crypto = require('crypto'),
 	errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
+
+/*
+ * Config VARs
+ */
+var AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY;
+var AWS_SECRET_KEY = process.env.AWS_SECRET_KEY;
+var S3_BUCKET = process.env.S3_BUCKET;
+
+/*
+ * Router functions
+ * Functions that will be used by routers
+ */
+
+var createS3Hmac = function(data) {
+  return crypto.createHmac('sha1', AWS_SECRET_KEY).update(data).digest('base64');
+}
 
 /**
  * Create a article
@@ -96,3 +113,13 @@ exports.articleByID = function(req, res, next, id) {
 		next();
 	});
 };
+
+
+/**
+ * Get S3 sign
+ */
+exports.getS3sign = function(req, res, next) {
+	res.set('Content-Type', 'text/html');
+	console.log(req.query.to_sign);
+  res.send(createS3Hmac(req.query.to_sign));
+}

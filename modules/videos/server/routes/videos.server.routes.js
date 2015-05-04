@@ -12,6 +12,10 @@ module.exports = function(app) {
 		.get(videos.list)
 		.post(videos.create);
 
+	// Get S3 Hmac signature
+	app.route('/api/videos/getS3sign')
+		.get(videos.getS3sign);
+
 	// Single article routes
 	app.route('/api/videos/:articleId').all(articlesPolicy.isAllowed)
 		.get(videos.read)
