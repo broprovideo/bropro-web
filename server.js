@@ -1,6 +1,11 @@
 'use strict';
 
 /**
+ * Immediately import environment variables from .env files
+ */
+require('dotenv').load();
+
+/**
  * Module dependencies.
  */
 var config = require('./config/config'),
