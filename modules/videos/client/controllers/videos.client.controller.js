@@ -5,11 +5,11 @@ angular.module('videos').controller('VideosController', ['$scope', '$stateParams
 		$scope.authentication = Authentication;
 
 		$scope.create = function() {
-			var article = new Videos({
+			var video = new Videos({
 				title: this.title,
 				content: this.content
 			});
-			article.$save(function(response) {
+			video.$save(function(response) {
 				$location.path('videos/' + response._id);
 
 				$scope.title = '';
@@ -19,27 +19,27 @@ angular.module('videos').controller('VideosController', ['$scope', '$stateParams
 			});
 		};
 
-		$scope.remove = function(article) {
-			if (article) {
-				article.$remove();
+		$scope.remove = function(video) {
+			if (video) {
+				video.$remove();
 
 				for (var i in $scope.videos) {
-					if ($scope.videos[i] === article) {
+					if ($scope.videos[i] === video) {
 						$scope.videos.splice(i, 1);
 					}
 				}
 			} else {
-				$scope.article.$remove(function() {
+				$scope.video.$remove(function() {
 					$location.path('videos');
 				});
 			}
 		};
 
 		$scope.update = function() {
-			var article = $scope.article;
+			var video = $scope.video;
 
-			article.$update(function() {
-				$location.path('videos/' + article._id);
+			video.$update(function() {
+				$location.path('videos/' + video._id);
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});
@@ -50,8 +50,8 @@ angular.module('videos').controller('VideosController', ['$scope', '$stateParams
 		};
 
 		$scope.findOne = function() {
-			$scope.article = Videos.get({
-				articleId: $stateParams.articleId
+			$scope.video = Videos.get({
+				videoId: $stateParams.videoId
 			});
 		};
 	}
