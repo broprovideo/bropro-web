@@ -1,10 +1,10 @@
 'use strict';
 
 (function() {
-	// Articles Controller Spec
-	describe('ArticlesController', function() {
+	// Videos Controller Spec
+	describe('VideosController', function() {
 		// Initialize global variables
-		var ArticlesController,
+		var VideosController,
 			scope,
 			$httpBackend,
 			$stateParams,
@@ -44,36 +44,36 @@
 			$httpBackend = _$httpBackend_;
 			$location = _$location_;
 
-			// Initialize the Articles controller.
-			ArticlesController = $controller('ArticlesController', {
+			// Initialize the Videos controller.
+			VideosController = $controller('VideosController', {
 				$scope: scope
 			});
 		}));
 
-		it('$scope.find() should create an array with at least one article object fetched from XHR', inject(function(Articles) {
-			// Create sample article using the Articles service
-			var sampleArticle = new Articles({
+		it('$scope.find() should create an array with at least one article object fetched from XHR', inject(function(Videos) {
+			// Create sample article using the Videos service
+			var sampleArticle = new Videos({
 				title: 'An Article about MEAN',
 				content: 'MEAN rocks!'
 			});
 
-			// Create a sample articles array that includes the new article
-			var sampleArticles = [sampleArticle];
+			// Create a sample videos array that includes the new article
+			var sampleVideos = [sampleArticle];
 
 			// Set GET response
-			$httpBackend.expectGET('api/articles').respond(sampleArticles);
+			$httpBackend.expectGET('api/videos').respond(sampleVideos);
 
 			// Run controller functionality
 			scope.find();
 			$httpBackend.flush();
 
 			// Test scope value
-			expect(scope.articles).toEqualData(sampleArticles);
+			expect(scope.videos).toEqualData(sampleVideos);
 		}));
 
-		it('$scope.findOne() should create an array with one article object fetched from XHR using a articleId URL parameter', inject(function(Articles) {
+		it('$scope.findOne() should create an array with one article object fetched from XHR using a articleId URL parameter', inject(function(Videos) {
 			// Define a sample article object
-			var sampleArticle = new Articles({
+			var sampleArticle = new Videos({
 				title: 'An Article about MEAN',
 				content: 'MEAN rocks!'
 			});
@@ -82,7 +82,7 @@
 			$stateParams.articleId = '525a8422f6d0f87f0e407a33';
 
 			// Set GET response
-			$httpBackend.expectGET(/api\/articles\/([0-9a-fA-F]{24})$/).respond(sampleArticle);
+			$httpBackend.expectGET(/api\/videos\/([0-9a-fA-F]{24})$/).respond(sampleArticle);
 
 			// Run controller functionality
 			scope.findOne();
@@ -92,15 +92,15 @@
 			expect(scope.article).toEqualData(sampleArticle);
 		}));
 
-		it('$scope.create() with valid form data should send a POST request with the form input values and then locate to new object URL', inject(function(Articles) {
+		it('$scope.create() with valid form data should send a POST request with the form input values and then locate to new object URL', inject(function(Videos) {
 			// Create a sample article object
-			var sampleArticlePostData = new Articles({
+			var sampleArticlePostData = new Videos({
 				title: 'An Article about MEAN',
 				content: 'MEAN rocks!'
 			});
 
 			// Create a sample article response
-			var sampleArticleResponse = new Articles({
+			var sampleArticleResponse = new Videos({
 				_id: '525cf20451979dea2c000001',
 				title: 'An Article about MEAN',
 				content: 'MEAN rocks!'
@@ -111,7 +111,7 @@
 			scope.content = 'MEAN rocks!';
 
 			// Set POST response
-			$httpBackend.expectPOST('api/articles', sampleArticlePostData).respond(sampleArticleResponse);
+			$httpBackend.expectPOST('api/videos', sampleArticlePostData).respond(sampleArticleResponse);
 
 			// Run controller functionality
 			scope.create();
@@ -122,12 +122,12 @@
 			expect(scope.content).toEqual('');
 
 			// Test URL redirection after the article was created
-			expect($location.path()).toBe('/articles/' + sampleArticleResponse._id);
+			expect($location.path()).toBe('/videos/' + sampleArticleResponse._id);
 		}));
 
-		it('$scope.update() should update a valid article', inject(function(Articles) {
+		it('$scope.update() should update a valid article', inject(function(Videos) {
 			// Define a sample article put data
-			var sampleArticlePutData = new Articles({
+			var sampleArticlePutData = new Videos({
 				_id: '525cf20451979dea2c000001',
 				title: 'An Article about MEAN',
 				content: 'MEAN Rocks!'
@@ -137,34 +137,34 @@
 			scope.article = sampleArticlePutData;
 
 			// Set PUT response
-			$httpBackend.expectPUT(/api\/articles\/([0-9a-fA-F]{24})$/).respond();
+			$httpBackend.expectPUT(/api\/videos\/([0-9a-fA-F]{24})$/).respond();
 
 			// Run controller functionality
 			scope.update();
 			$httpBackend.flush();
 
 			// Test URL location to new object
-			expect($location.path()).toBe('/articles/' + sampleArticlePutData._id);
+			expect($location.path()).toBe('/videos/' + sampleArticlePutData._id);
 		}));
 
-		it('$scope.remove() should send a DELETE request with a valid articleId and remove the article from the scope', inject(function(Articles) {
+		it('$scope.remove() should send a DELETE request with a valid articleId and remove the article from the scope', inject(function(Videos) {
 			// Create new article object
-			var sampleArticle = new Articles({
+			var sampleArticle = new Videos({
 				_id: '525a8422f6d0f87f0e407a33'
 			});
 
-			// Create new articles array and include the article
-			scope.articles = [sampleArticle];
+			// Create new videos array and include the article
+			scope.videos = [sampleArticle];
 
 			// Set expected DELETE response
-			$httpBackend.expectDELETE(/api\/articles\/([0-9a-fA-F]{24})$/).respond(204);
+			$httpBackend.expectDELETE(/api\/videos\/([0-9a-fA-F]{24})$/).respond(204);
 
 			// Run controller functionality
 			scope.remove(sampleArticle);
 			$httpBackend.flush();
 
 			// Test array after successful delete
-			expect(scope.articles.length).toBe(0);
+			expect(scope.videos.length).toBe(0);
 		}));
 	});
 }());
