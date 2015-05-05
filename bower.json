@@ -13,6 +13,7 @@
     "angular-ui-router": "~0.2.10",
     "angular-file-upload": "~1.1.5",
     "fontawesome": "~4.3.0",
-    "evaporatejs": "*"
+    "evaporatejs": "*",
+    "mule-uploader": "*"
   }
 }
