@@ -7,7 +7,7 @@ angular.module('videos').config(['$stateProvider',
 		$stateProvider.
 		state('home.videos', {
 			abstract: true,
-			url: '/video',
+			url: '/videos',
 			template: '<ui-view/>'
 		}).
 		state('home.videos.list', {
@@ -27,7 +27,7 @@ angular.module('videos').config(['$stateProvider',
 					content: this.content
 				});
 				video.$save(function(response) {
-					$location.path('/video/' + response._id);
+					$location.path('/videos/' + response._id);
 
 					$scope.title = '';
 					$scope.content = '';
