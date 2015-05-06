@@ -7,6 +7,7 @@ var path = require('path'),
 	mongoose = require('mongoose'),
 	Video = mongoose.model('Video'),
 	crypto = require('crypto'),
+	moment = require('moment'),
 	errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 /*
@@ -23,6 +24,14 @@ var S3_BUCKET = process.env.S3_BUCKET;
 
 var createS3Hmac = function(data) {
   return crypto.createHmac('sha1', AWS_SECRET_KEY).update(data).digest('base64');
+}
+
+function getSignatureKey(key, dateStamp, regionName, serviceName) {
+	var kDate = crypto.createHmac('sha256', "AWS4"+key).update(dateStamp).digest('binary');
+	var kRegion = crypto.createHmac('sha256', kDate).update(regionName).digest('binary');
+	var kService = crypto.createHmac('sha256', kRegion).update(serviceName).digest('binary');
+	var kSigning = crypto.createHmac('sha256', kService).update("aws4_request").digest('hex');
+	return kSigning;
 }
 
 /**
@@ -117,9 +126,35 @@ exports.videoByID = function(req, res, next, id) {
 
 /**
  * Get S3 sign
+ *
+ * 	access_key: "AKIAJVEKGJ4PS7GDE77A"
+ *	backup_key: "636452"
+ *	bucket: "mule-uploader-demo"
+ *	content_type: "application/octet-stream"
+ *	date: "2015-05-05T12:34:17.038135"
+ *	region: "us-east-1"
+ *	signature: "4a870a914051d994306ad617db239cd2b71fc1d6f47adfec410d229c8b986e4e"
  */
+
+var key = 'wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY';
+var dateStamp = '20120215';
+var regionName = 'us-east-1';
+var serviceName = 'iam';
+
 exports.getS3sign = function(req, res, next) {
 	res.set('Content-Type', 'text/html');
-	console.log(req.query.to_sign);
-  res.send(createS3Hmac(req.query.to_sign));
+	res.jsonp({
+		access_key: AWS_ACCESS_KEY,
+		key: "file1",
+		backup_key: "3543543",
+		bucket: S3_BUCKET,
+		content_type: "application/octet-stream",
+		date: moment().toISOString(),
+		region: "us-east-1",
+		signature: getSignatureKey(AWS_SECRET_KEY, moment().format("YYYYMMDD"), "us-east-1", "s3" )
+	});
+}
+
+exports.s3chunckLoaded = function(req, res, next) {
+
 }

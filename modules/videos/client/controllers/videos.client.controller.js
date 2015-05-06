@@ -4,68 +4,41 @@ angular.module('videos').controller('VideosController', ['$scope', '$stateParams
 	function($scope, $stateParams, $location, Authentication, Videos) {
 		$scope.authentication = Authentication;
 
-		// Video repos
-		var s3Url = 'https://indrasantosa.uploads.s3.amazonaws.com';
+		// Video folders
+		var settings = {
+			file_input: document.getElementById("files"),
+			access_key: "AKIAINESKCCNAOX7CVHQ",
+			content_type: "application/octet-stream",
+			bucket: "indrasantosa.uploads",
+			region: "us-east-1",
+			ajax_base: '/api/videos',
 
-		var _e_ = new Evaporate({
-        signerUrl: '/api/videos/getS3sign',
-        aws_key: 'AKIAINESKCCNAOX7CVHQ',
-        bucket: 'indrasantosa.uploads',
-    });
-		$scope.files = null;
 
-        $('#files').change(function(evt) {
+			max_size: 50 * (1 << 30), // 50 gb
+			on_error: function() {
 
-            $scope.files = [];
+			},
+			on_select: function(fileObj) {
+				console.log(fileObj);
+			},
+			on_start: function(fileObj) {
+				console.log("starting...");
+				console.log(fileObj)
+			},
+			on_progress: function(bytes_uploaded, bytes_total) {
+				console.log("Uploading ", bytes_uploaded, " of ", bytes_total)
+			},
+			on_init: function() {
 
-            var files = evt.target.files;
-
-            for (var i = 0; i < files.length; i++){
-                $scope.files.push(files[i]);
-            }
-
-            $scope.$apply();
-            $scope.files.forEach(function(file){
-                var fileKey = 'tmp/' + file.name;
-                file.url = s3Url +'/'+ fileKey;
-
-                console.log(file);
-
-                if (file.type === '') {
-                    file.type = 'binary/octel-stream';
-                }
-
-                file.started = Date.now();
-
-                _e_.add({
-                    name: fileKey,
-                    file: file,
-                    contentType: file.type,
-                    xAmzHeadersAtInitiate: {
-                        'x-amz-acl': 'public-read'
-                    },
-                    complete: function() {
-                        file.completed = true;
-                        $scope.$apply();
-                    },
-                    progress: function(progress) {
-
-                        // returns percent / 100 with 2 decimal places I.E (10.00)
-                        file.progress = (Math.round((progress * 100) * 100) / 100);
-
-                        var currentTime            = Date.now();
-                        var progressRemaining      = (100 - file.progress);
-                        var progressionRate        = (progressRemaining / file.progress);
-                        var timeToCurrentPosition  = (currentTime - file.started);
-
-                        // return seconds left during download
-                        file.timeLeft = Math.round((progressionRate * timeToCurrentPosition) / 1000);
-
-                        $scope.$apply();
-                    }
-                });
-            });
-        });
+			},
+			on_complete: function() {
+				console.log('Upload completed');
+			},
+			on_chunk_uploaded: function() {
+				$('#log').prepend("Chunk finished uploading\n");
+			}
+		};
+		var upload = mule_upload(settings);
 
 
 		$scope.create = function() {

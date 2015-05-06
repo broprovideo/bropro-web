@@ -13,8 +13,10 @@ module.exports = function(app) {
 		.post(videos.create);
 
 	// Get S3 Hmac signature
-	app.route('/api/videos/getS3sign')
+	app.route('/api/videos/signing_key/')
 		.get(videos.getS3sign);
+		app.route('/api/videos/chunk_loaded/')
+			.get(videos.s3chunckLoaded);
 
 	// Single video routes
 	app.route('/api/videos/:videoId').all(videoPolicy.isAllowed)
