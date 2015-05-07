@@ -81,7 +81,7 @@ a:hover .header-profile-image {
 	border: none;
 }
 
-label {
+label, #signup .wrapper .formy .form-group label {
   color: #b7b7b7;
   font-weight: normal;
   letter-spacing: .05em;
@@ -112,8 +112,9 @@ label {
 	background: #e61e25;
 	border: none;
 	text-transform: uppercase;
+	float: right;
 }
-.btn-primary:hover, .btn-primary:active {
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open .dropdown-toggle.btn-primary{
 	color: #ffffff;
 	background: #ee151d;
 	border: none;
@@ -133,9 +134,14 @@ label {
 	width: 80px;
 }
 
-ul.navbar-nav li a {
-  display: inline-table;
+.navbar.white .navbar-collapse .navbar-nav > li.active > a {
+  background: none;
+  color: #b7b7b7;
 }
+.navbar.white .navbar-collapse .navbar-nav > li > a .fa-chevron-down {
+	margin-left: 0px;
+}
+
 
 
 ul.nav-pills li {
@@ -164,7 +170,44 @@ ul.nav-pills li.active a {
 }
 
 .navbar.white .navbar-collapse .navbar-nav > li > a {
-	color: #999999;
+	color: #b7b7b7;
 }
+
+
+
+
+.navbar.white .navbar-collapse .navbar-nav > li.open > a {
+  background: #474747;
+  color: #b7b7b7;
+}
+.dropdown-menu {
+	background-color: #474747;
+}
+.dropdown-menu > li > a {
+	color: #b7b7b7;
+}
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+	background-color: #676767;
+	color: #cccccc;
+}
+.dropdown-menu .divider {
+	background-color: #676767;
+}
+.dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus {
+	background: transparent;
+	border-left: 3px solid #e61e25;
+	border-radius: 0;
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
