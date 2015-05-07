@@ -15,9 +15,22 @@ var VideoSchema = new Schema({
 		type: Date,
 		default: Date.now
 	},
-	id: {
+	key: {
 		type: String,
 		default: shortid.generate(),
+		index: true
+	},
+	backupKey: {
+		type: String,
+		default: shortid.generate(),
+		index: true
+	},
+	fileSize: {
+		type: Number,
+		index: true
+	},
+	lastModified: {
+		type: Number,
 		index: true
 	},
 	title: {
@@ -25,15 +38,10 @@ var VideoSchema = new Schema({
 		default: '',
 		trim: true
 	},
-	videos: {},
-	content: {
-		type: String,
-		default: '',
-		trim: true
-	},
-	user: {
+	chunks: [],
+	project: {
 		type: Schema.ObjectId,
-		ref: 'User'
+		ref: 'Project'
 	}
 });
 

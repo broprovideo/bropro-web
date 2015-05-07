@@ -1,17 +1,17 @@
 'use strict';
 
-angular.module('videos').controller('VideosController', ['$scope', '$stateParams', '$location', 'Authentication', 'Videos',
-	function($scope, $stateParams, $location, Authentication, Videos) {
+angular.module('project').controller('ProjectsController', ['$scope', '$stateParams', '$location', 'Authentication', 'Projects',
+	function($scope, $stateParams, $location, Authentication, Projects) {
 		$scope.authentication = Authentication;
 
-		// Video folders
+		// Project folders
 		var settings = {
 			file_input: document.getElementById("files"),
 			access_key: "AKIAINESKCCNAOX7CVHQ",
 			content_type: "application/octet-stream",
 			bucket: "indrasantosa.uploads",
 			region: "us-east-1",
-			ajax_base: '/api/videos',
+			ajax_base: '/api/project',
 
 
 			max_size: 50 * (1 << 30), // 50 gb
@@ -42,12 +42,12 @@ angular.module('videos').controller('VideosController', ['$scope', '$stateParams
 
 
 		$scope.create = function() {
-			var video = new Videos({
+			var project = new Projects({
 				title: this.title,
 				content: this.content
 			});
-			video.$save(function(response) {
-				$location.path('videos/' + response._id);
+			project.$save(function(response) {
+				$location.path('project/' + response._id);
 
 				$scope.title = '';
 				$scope.content = '';
@@ -56,39 +56,39 @@ angular.module('videos').controller('VideosController', ['$scope', '$stateParams
 			});
 		};
 
-		$scope.remove = function(video) {
-			if (video) {
-				video.$remove();
+		$scope.remove = function(project) {
+			if (project) {
+				project.$remove();
 
-				for (var i in $scope.videos) {
-					if ($scope.videos[i] === video) {
-						$scope.videos.splice(i, 1);
+				for (var i in $scope.project) {
+					if ($scope.project[i] === project) {
+						$scope.project.splice(i, 1);
 					}
 				}
 			} else {
-				$scope.video.$remove(function() {
-					$location.path('videos');
+				$scope.project.$remove(function() {
+					$location.path('project');
 				});
 			}
 		};
 
 		$scope.update = function() {
-			var video = $scope.video;
+			var project = $scope.project;
 
-			video.$update(function() {
-				$location.path('videos/' + video._id);
+			project.$update(function() {
+				$location.path('project/' + project._id);
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});
 		};
 
 		$scope.find = function() {
-			$scope.videos = Videos.query();
+			$scope.project = Projects.query();
 		};
 
 		$scope.findOne = function() {
-			$scope.video = Videos.get({
-				videoId: $stateParams.videoId
+			$scope.project = Projects.get({
+				projectId: $stateParams.projectId
 			});
 		};
 	}

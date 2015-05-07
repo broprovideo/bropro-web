@@ -5,7 +5,7 @@
  */
 var path = require('path'),
 	mongoose = require('mongoose'),
-	Video = mongoose.model('Video'),
+	Project = mongoose.model('Project'),
 	crypto = require('crypto'),
 	moment = require('moment'),
 	errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
@@ -35,63 +35,63 @@ function getSignatureKey(key, dateStamp, regionName, serviceName) {
 }
 
 /**
- * Create a video
+ * Create a project
  */
 exports.create = function(req, res) {
-	var video = new Video(req.body);
-	video.user = req.user;
+	var project = new Project(req.body);
+	project.user = req.user;
 
-	video.save(function(err) {
+	project.save(function(err) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
-			res.json(video);
+			res.json(project);
 		}
 	});
 };
 
 /**
- * Show the current video
+ * Show the current project
  */
 exports.read = function(req, res) {
-	res.json(req.video);
+	res.json(req.project);
 };
 
 /**
- * Update a video
+ * Update a project
  */
 exports.update = function(req, res) {
-	var video = req.video;
+	var project = req.project;
 
-	video.title = req.body.title;
-	video.content = req.body.content;
+	project.title = req.body.title;
+	project.content = req.body.content;
 
-	video.save(function(err) {
+	project.save(function(err) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
-			res.json(video);
+			res.json(project);
 		}
 	});
 };
 
 /**
- * Delete an video
+ * Delete an project
  */
 exports.delete = function(req, res) {
-	var video = req.video;
+	var project = req.project;
 
-	video.remove(function(err) {
+	project.remove(function(err) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
-			res.json(video);
+			res.json(project);
 		}
 	});
 };
@@ -100,48 +100,36 @@ exports.delete = function(req, res) {
  * List of Videos
  */
 exports.list = function(req, res) {
-	Video.find().sort('-created').populate('user', 'displayName').exec(function(err, videos) {
+	Project.find().sort('-created').populate('user', 'displayName').exec(function(err, projects) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
-			res.json(videos);
+			res.json(projects);
 		}
 	});
 };
 
 /**
- * Video middleware
+ * Project middleware
  */
-exports.videoByID = function(req, res, next, id) {
-	Video.findById(id).populate('user', 'displayName').exec(function(err, video) {
+exports.projectByID = function(req, res, next, id) {
+	Project.findById(id).populate('user', 'displayName').exec(function(err, project) {
 		if (err) return next(err);
-		if (!video) return next(new Error('Failed to load video ' + id));
-		req.video = video;
+		if (!project) return next(new Error('Failed to load project ' + id));
+		req.project = project;
 		next();
 	});
 };
 
 
 /**
- * Get S3 sign
+ * Get S3 signature
  *
- * 	access_key: "AKIAJVEKGJ4PS7GDE77A"
- *	backup_key: "636452"
- *	bucket: "mule-uploader-demo"
- *	content_type: "application/octet-stream"
- *	date: "2015-05-05T12:34:17.038135"
- *	region: "us-east-1"
- *	signature: "4a870a914051d994306ad617db239cd2b71fc1d6f47adfec410d229c8b986e4e"
  */
-
-var key = 'wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY';
-var dateStamp = '20120215';
-var regionName = 'us-east-1';
-var serviceName = 'iam';
-
 exports.getS3sign = function(req, res, next) {
+	console.log(req.user);
 	res.set('Content-Type', 'text/html');
 	res.jsonp({
 		access_key: AWS_ACCESS_KEY,
@@ -155,6 +143,8 @@ exports.getS3sign = function(req, res, next) {
 	});
 }
 
-exports.s3chunckLoaded = function(req, res, next) {
-
+exports.s3chunkLoaded = function(req, res, next) {
+	console.log(req.user);
+	console.log(req.params.chunk);
+	res.sendStatus(200);
 }

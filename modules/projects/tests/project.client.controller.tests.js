@@ -1,10 +1,10 @@
 'use strict';
 
 (function() {
-	// Videos Controller Spec
-	describe('VideosController', function() {
+	// Projects Controller Spec
+	describe('ProjectsController', function() {
 		// Initialize global variables
-		var VideosController,
+		var ProjectsController,
 			scope,
 			$httpBackend,
 			$stateParams,
@@ -44,36 +44,36 @@
 			$httpBackend = _$httpBackend_;
 			$location = _$location_;
 
-			// Initialize the Videos controller.
-			VideosController = $controller('VideosController', {
+			// Initialize the Projects controller.
+			ProjectsController = $controller('ProjectsController', {
 				$scope: scope
 			});
 		}));
 
-		it('$scope.find() should create an array with at least one video object fetched from XHR', inject(function(Videos) {
-			// Create sample video using the Videos service
-			var sampleVideo = new Videos({
+		it('$scope.find() should create an array with at least one video object fetched from XHR', inject(function(Projects) {
+			// Create sample video using the Projects service
+			var sampleVideo = new Projects({
 				title: 'An Video about MEAN',
 				content: 'MEAN rocks!'
 			});
 
 			// Create a sample videos array that includes the new video
-			var sampleVideos = [sampleVideo];
+			var sampleProjects = [sampleVideo];
 
 			// Set GET response
-			$httpBackend.expectGET('api/videos').respond(sampleVideos);
+			$httpBackend.expectGET('api/videos').respond(sampleProjects);
 
 			// Run controller functionality
 			scope.find();
 			$httpBackend.flush();
 
 			// Test scope value
-			expect(scope.videos).toEqualData(sampleVideos);
+			expect(scope.videos).toEqualData(sampleProjects);
 		}));
 
-		it('$scope.findOne() should create an array with one video object fetched from XHR using a articleId URL parameter', inject(function(Videos) {
+		it('$scope.findOne() should create an array with one video object fetched from XHR using a articleId URL parameter', inject(function(Projects) {
 			// Define a sample video object
-			var sampleVideo = new Videos({
+			var sampleVideo = new Projects({
 				title: 'An Video about MEAN',
 				content: 'MEAN rocks!'
 			});
@@ -92,15 +92,15 @@
 			expect(scope.video).toEqualData(sampleVideo);
 		}));
 
-		it('$scope.create() with valid form data should send a POST request with the form input values and then locate to new object URL', inject(function(Videos) {
+		it('$scope.create() with valid form data should send a POST request with the form input values and then locate to new object URL', inject(function(Projects) {
 			// Create a sample video object
-			var sampleVideoPostData = new Videos({
+			var sampleVideoPostData = new Projects({
 				title: 'An Video about MEAN',
 				content: 'MEAN rocks!'
 			});
 
 			// Create a sample video response
-			var sampleVideoResponse = new Videos({
+			var sampleVideoResponse = new Projects({
 				_id: '525cf20451979dea2c000001',
 				title: 'An Video about MEAN',
 				content: 'MEAN rocks!'
@@ -125,9 +125,9 @@
 			expect($location.path()).toBe('/videos/' + sampleVideoResponse._id);
 		}));
 
-		it('$scope.update() should update a valid video', inject(function(Videos) {
+		it('$scope.update() should update a valid video', inject(function(Projects) {
 			// Define a sample video put data
-			var sampleVideoPutData = new Videos({
+			var sampleVideoPutData = new Projects({
 				_id: '525cf20451979dea2c000001',
 				title: 'An Video about MEAN',
 				content: 'MEAN Rocks!'
@@ -147,9 +147,9 @@
 			expect($location.path()).toBe('/videos/' + sampleVideoPutData._id);
 		}));
 
-		it('$scope.remove() should send a DELETE request with a valid articleId and remove the video from the scope', inject(function(Videos) {
+		it('$scope.remove() should send a DELETE request with a valid articleId and remove the video from the scope', inject(function(Projects) {
 			// Create new video object
-			var sampleVideo = new Videos({
+			var sampleVideo = new Projects({
 				_id: '525a8422f6d0f87f0e407a33'
 			});
 
