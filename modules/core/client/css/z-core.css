@@ -80,6 +80,7 @@ a:hover .header-profile-image {
 .form-control {
 	background-color: #b7b7b7;
 	border: none;
+	border-radius: 0px;
 }
 
 label, #signup .wrapper .formy .form-group label {
@@ -108,12 +109,13 @@ label, #signup .wrapper .formy .form-group label {
 
 /* BUTTONS */
 
-.btn-primary {
+.btn-primary, .btn-default, .btn {
 	color: #ffffff;
 	background: #e61e25;
 	border: none;
 	text-transform: uppercase;
 	float: right;
+	border-radius: 0px;
 }
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open .dropdown-toggle.btn-primary{
 	color: #ffffff;
@@ -142,6 +144,15 @@ label, #signup .wrapper .formy .form-group label {
 .navbar.white .navbar-collapse .navbar-nav > li > a .fa-chevron-down {
 	margin-left: 0px;
 }
+.navbar.white {
+  background: #2d2d2d;
+  box-shadow: none;
+}
+.navbar.white .navbar-collapse .navbar-nav > li > a {
+	color: #b7b7b7;
+}
+
+
 
 
 
@@ -164,15 +175,6 @@ ul.nav-pills li.active a {
 }
 .nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
 	background: transparent;
-	color: #b7b7b7;
-}
-
-.navbar.white {
-  background: #373737;
-  box-shadow: none;
-}
-
-.navbar.white .navbar-collapse .navbar-nav > li > a {
 	color: #b7b7b7;
 }
 
