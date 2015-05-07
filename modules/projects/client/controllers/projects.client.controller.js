@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('project').controller('ProjectsController', ['$scope', '$stateParams', '$location', 'Authentication', 'Projects',
+angular.module('projects').controller('ProjectsController', ['$scope', '$stateParams', '$location', 'Authentication', 'Projects',
 	function($scope, $stateParams, $location, Authentication, Projects) {
 		$scope.authentication = Authentication;
 
@@ -83,7 +83,7 @@ angular.module('project').controller('ProjectsController', ['$scope', '$statePar
 		};
 
 		$scope.find = function() {
-			$scope.project = Projects.query();
+			$scope.projects = Projects.query();
 		};
 
 		$scope.findOne = function() {
