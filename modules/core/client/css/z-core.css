@@ -133,7 +133,7 @@ label {
 	width: 80px;
 }
 
-.nav > li > a {
+ul.navbar-nav li a {
   display: inline-table;
 }
 
