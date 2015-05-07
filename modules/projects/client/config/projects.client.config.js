@@ -5,7 +5,7 @@ angular.module('projects').run(['Menus',
 	function(Menus) {
 		// Add the projects dropdown item
 		Menus.addMenuItem('topbar', {
-			title: 'Videos',
+			title: 'My Videos',
 			state: 'home.projects',
 			type: 'dropdown'
 		});
