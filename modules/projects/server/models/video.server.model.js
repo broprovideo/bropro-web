@@ -33,7 +33,7 @@ var VideoSchema = new Schema({
 		type: Number,
 		index: true
 	},
-	title: {
+	originalFileName: {
 		type: String,
 		default: '',
 		trim: true

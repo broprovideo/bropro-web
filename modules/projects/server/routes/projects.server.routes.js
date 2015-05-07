@@ -12,12 +12,6 @@ module.exports = function(app) {
 		.get(projects.list)
 		.post(projects.create);
 
-	// Mule-uploader routes
-	app.route('/api/projects/signing_key/')
-		.get(projects.getS3sign);
-	app.route('/api/projects/chunk_loaded/')
-		.get(projects.s3chunkLoaded);
-
 	// Single project routes
 	app.route('/api/projects/:projectId').all(projectPolicy.isAllowed)
 		.get(projects.read)
