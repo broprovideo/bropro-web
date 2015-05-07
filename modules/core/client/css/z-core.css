@@ -1,0 +1,170 @@
+
+body {
+	background: #373737;
+	color: #b7b7b7;
+}
+
+a {
+  color: #e61e25;
+}
+a:hover {
+  color: #ee151d;
+}
+
+h1, h2, h3, h4, .h1, .h2, .h3, .h4 {
+  font-weight: lighter;
+  text-transform: uppercase;
+  color: #b7b7b7;
+}
+
+p {
+	color: #b7b7b7;	
+}
+
+.page-header {
+  padding-bottom: 9px;
+  margin: 40px 0 20px;
+  border-bottom: 1px solid #474747;
+}
+
+
+.content {
+	/* margin-top: 50px; */
+}
+.undecorated-link:hover {
+	text-decoration: none;
+}
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+	display: none !important;
+}
+.ng-invalid.ng-dirty{
+	border-color:#FA787E;
+}
+.ng-valid.ng-dirty{
+	border-color:#78FA89;
+}
+
+.header-profile-image {
+	opacity: 0.8;
+	height: 28px;
+	width: 28px;
+	border-radius: 50%;
+	margin-right: 5px;
+}
+
+.open  .header-profile-image,
+a:hover .header-profile-image {
+	opacity: 1;
+}
+
+.user-header-dropdown-toggle {
+	padding-top: 21px !important;
+	padding-bottom: 21px !important;
+}
+
+/* SIGN IN VIEW */
+
+#signup {
+	background: transparent;
+}
+
+#signup .wrapper {
+  border: 1px solid #666666;
+  background: transparent;
+}
+
+
+/* FORMS */
+
+.form-control {
+	background-color: #b7b7b7;
+	border: none;
+}
+
+label {
+  color: #b7b7b7;
+  font-weight: normal;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+::-webkit-input-placeholder {
+   color: red;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+   color: red;  
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+   color: red;  
+}
+
+:-ms-input-placeholder {  
+   color: red;  
+}
+
+
+/* BUTTONS */
+
+.btn-primary {
+	color: #ffffff;
+	background: #e61e25;
+	border: none;
+	text-transform: uppercase;
+}
+.btn-primary:hover, .btn-primary:active {
+	color: #ffffff;
+	background: #ee151d;
+	border: none;
+	text-transform: uppercase;
+}
+
+
+/* NAVS */
+
+
+.navbar-brand {
+	background: #e61e25;
+	padding: 10px;
+	height: inherit;
+}
+.navbar-brand img {
+	width: 80px;
+}
+
+.nav > li > a {
+  display: inline-table;
+}
+
+
+ul.nav-pills li {
+	border-bottom: 1px solid #474747;
+}
+.nav > li > a:hover, .nav > li > a:focus {
+	background: #474747;
+}
+
+ul.nav-pills li.active a {
+	background: transparent;
+	border-left: 3px solid #e61e25;
+	border-radius: 0;
+}
+.nav-pills > li > a {
+  border-radius: 0px;
+}
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+	background: transparent;
+	color: #b7b7b7;
+}
+
+.navbar.white {
+  background: #373737;
+  box-shadow: none;
+}
+
+.navbar.white .navbar-collapse .navbar-nav > li > a {
+	color: #999999;
+}
+
+
