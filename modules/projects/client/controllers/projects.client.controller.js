@@ -47,7 +47,7 @@ angular.module('projects').controller('ProjectsController', ['$scope', '$statePa
 				content: this.content
 			});
 			project.$save(function(response) {
-				$location.path('project/' + response._id);
+				$location.path('projects/' + response._id);
 
 				$scope.title = '';
 				$scope.content = '';
@@ -74,9 +74,10 @@ angular.module('projects').controller('ProjectsController', ['$scope', '$statePa
 
 		$scope.update = function() {
 			var project = $scope.project;
+			console.log($scope.project);
 
 			project.$update(function() {
-				$location.path('project/' + project._id);
+				$location.path('projects/' + project._id);
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});

@@ -15,28 +15,28 @@ exports.invokeRolesPolicies = function() {
 	acl.allow([{
 		roles: ['admin'],
 		allows: [{
-			resources: '/api/projects',
+			resources: '/api/videos',
 			permissions: '*'
 		}, {
-			resources: '/api/projects/:projectId',
+			resources: '/api/videos/:videoId',
 			permissions: '*'
 		}]
 	}, {
 		roles: ['user'],
 		allows: [{
-			resources: '/api/projects',
+			resources: '/api/videos',
 			permissions: ['get', 'post']
 		}, {
-			resources: '/api/projects/:projectId',
+			resources: '/api/videos/:videoId',
 			permissions: ['get']
 		}]
 	}, {
 		roles: ['guest'],
 		allows: [{
-			resources: '/api/projects',
+			resources: '/api/videos',
 			permissions: ['get']
 		}, {
-			resources: '/api/projects/:projectId',
+			resources: '/api/videos/:videoId',
 			permissions: ['get']
 		}]
 	}]);
@@ -48,8 +48,8 @@ exports.invokeRolesPolicies = function() {
 exports.isAllowed = function(req, res, next) {
 	var roles = (req.user) ? req.user.roles : ['guest'];
 
-	// If an project is being processed and the current user created it then allow any manipulation
-	if (req.project && req.user && req.project.user.id === req.user.id) {
+	// If an video is being processed and the current user created it then allow any manipulation
+	if (req.video && req.user && req.video.user.id === req.user.id) {
 		return next();
 	}
 

@@ -26,11 +26,6 @@ var ProjectSchema = new Schema({
 		trim: true
 	},
 	videos: [Schema.Types.ObjectId],
-	description: {
-		type: String,
-		default: '',
-		trim: true
-	},
 	user: {
 		type: Schema.ObjectId,
 		ref: 'User'
