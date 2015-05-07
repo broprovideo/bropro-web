@@ -128,8 +128,8 @@ label, #signup .wrapper .formy .form-group label {
 /* NAVS */
 
 
-.navbar-brand {
-	background: #e61e25;
+.navbar-brand, .navbar-brand:hover, .navbar-brand:focus {
+	background-color: #e61e25 !important;
 	padding: 10px;
 	height: inherit;
 }
