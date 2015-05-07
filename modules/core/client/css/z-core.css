@@ -114,7 +114,6 @@ label, #signup .wrapper .formy .form-group label {
 	background: #e61e25;
 	border: none;
 	text-transform: uppercase;
-	float: right;
 	border-radius: 0px;
 }
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open .dropdown-toggle.btn-primary{
@@ -122,6 +121,10 @@ label, #signup .wrapper .formy .form-group label {
 	background: #ee151d;
 	border: none;
 	text-transform: uppercase;
+}
+
+.heading-btn {
+	margin-top: 15px;
 }
 
 
