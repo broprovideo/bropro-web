@@ -41,7 +41,8 @@ var VideoSchema = new Schema({
 	chunks: [],
 	project: {
 		type: Schema.ObjectId,
-		ref: 'Project'
+		ref: 'Project',
+		index: true
 	}
 });
 

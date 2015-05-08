@@ -14,7 +14,10 @@ angular.module('projects').controller('ProjectsController', ['$scope', '$statePa
 			content_type: "application/octet-stream",
 			bucket: "indrasantosa.uploads",
 			region: "us-east-1",
-			ajax_base: '/api/project',
+			ajax_base: '/api/videos',
+			extra_params: {
+				projectId: $stateParams.projectId,
+			},
 
 
 			max_size: 50 * (1 << 30), // 50 gb

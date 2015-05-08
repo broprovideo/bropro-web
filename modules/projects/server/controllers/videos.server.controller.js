@@ -7,7 +7,7 @@ var path = require('path'),
 	mongoose = require('mongoose'),
 	Video = mongoose.model('Video'),
 	crypto = require('crypto'),
-	moment = require('moment'),
+	moment = require('moment-timezone'),
 	errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 /*
@@ -120,26 +120,47 @@ exports.videoByID = function(req, res, next, id) {
 
 
 /**
- * Get S3 signature
- *
+ * Get S3 signature - Based on mule uploader
+ * This action also will try to resume unfinished uploads
+ * Refer to here : https://github.com/cinely/mule-uploader#mule-upload
  */
 exports.getS3sign = function(req, res, next) {
-	console.log(req.user);
-	res.set('Content-Type', 'text/html');
-	res.jsonp({
-		access_key: AWS_ACCESS_KEY,
-		key: "file1",
-		backup_key: "3543543",
-		bucket: S3_BUCKET,
-		content_type: "application/octet-stream",
-		date: moment().toISOString(),
-		region: "us-east-1",
-		signature: getSignatureKey(AWS_SECRET_KEY, moment().format("YYYYMMDD"), "us-east-1", "s3" )
+	console.log(req.query.filename, req.query.filesize);
+	Video.find({
+		project: req.query.projectId,
+		filename: req.query.filename,
+		filesize: req.query.filesize
+	}).exec(function(video) {
+		if(video) {
+			// Return existing video record
+			res.set('Content-Type', 'text/html');
+			res.jsonp({
+				access_key: AWS_ACCESS_KEY,
+				key: "file1",
+				backup_key: "3543543",
+				bucket: S3_BUCKET,
+				content_type: "application/octet-stream",
+				date: moment().toISOString(),
+				region: "us-east-1",
+				signature: getSignatureKey(AWS_SECRET_KEY, moment.tz('America/Toronto').format("YYYYMMDD"), "us-east-1", "s3" )
+			});
+		} else {
+			// Make new video
+			res.set('Content-Type', 'text/html');
+			res.jsonp({
+				access_key: AWS_ACCESS_KEY,
+				key: "file1",
+				backup_key: "3543543",
+				bucket: S3_BUCKET,
+				content_type: "application/octet-stream",
+				date: moment().toISOString(),
+				region: "us-east-1",
+				signature: getSignatureKey(AWS_SECRET_KEY, moment.tz('America/Toronto').format("YYYYMMDD"), "us-east-1", "s3" )
+			});
+		}
 	});
 }
 
 exports.s3chunkLoaded = function(req, res, next) {
-	console.log(req.user);
-	console.log(req.params.chunk);
 	res.sendStatus(200);
 }
