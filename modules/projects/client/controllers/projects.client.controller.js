@@ -4,6 +4,9 @@ angular.module('projects').controller('ProjectsController', ['$scope', '$statePa
 	function($scope, $stateParams, $location, Authentication, Projects) {
 		$scope.authentication = Authentication;
 
+		// If user is signed in then redirect back home
+		if (!$scope.authentication.user) $location.path('/authentication/signin');
+
 		// Project folders
 		var settings = {
 			file_input: document.getElementById("files"),
