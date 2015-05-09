@@ -68,7 +68,7 @@ exports.getS3sign = function(req, res, next) {
 					key: shortid.generate() + '.' + getFileExtension(req.query.filename),
 					backupKey: shortid.generate(),
 					totalChunk: Math.ceil(req.query.filesize/6291456),
-					partition.user: req.user
+					user: req.user
 				});
 
 				// Save Partition, save when done
