@@ -28,7 +28,7 @@
 										<a ng-href="{{file.url}}" target="_blank">{{file.name}} completed</a>
 									</li>
 								</ul>
-								<progressbar class="progress-striped active" value="uploadProgress/uploadTotal*100" type="danger"><i>{{uploadProgress}} / {{uploadTotal}}</i></progressbar>
+								<progressbar class="progress-striped active" value="uploadProgress/uploadTotal*100" type="danger"><i>{{uploadProgress/uploadTotal*100 | number:0}}%</i></progressbar>
 							</div>
 						</div>
 						<div class="form-group">

@@ -6,6 +6,7 @@
 var path = require('path'),
 	mongoose = require('mongoose'),
 	Partition = mongoose.model('Partition'),
+	Video = mongoose.model('Video'),
 	crypto = require('crypto'),
 	shortid = require('shortid'),
 	async = require('async'),
@@ -37,7 +38,6 @@ function getSignatureKey(key, dateStamp, regionName, serviceName) {
  * Refer to here : https://github.com/cinely/mule-uploader#mule-upload
  */
 exports.getS3sign = function(req, res, next) {
-	console.log('Finding...', req.query.videoId, req.query.filename, req.query.filesize);
 	async.waterfall([
 		function(callback) {
 			// Try to find related partition else create new
@@ -74,9 +74,23 @@ exports.getS3sign = function(req, res, next) {
 							message: errorHandler.getErrorMessage(err)
 						});
 					} else {
-						callback(null, err, partition)
+						// Find partitions to the video partitions
+						Video.findById(req.query.videoId).exec(function(err, video) {
+							video.partitions.push(partition);
+							video.save(function(err) {
+								if (err) {
+									return res.status(400).send({
+										message: errorHandler.getErrorMessage(err)
+									});
+								} else {
+									callback(null, err, partition)
+								}
+							});
+						});
 					}
 				});
+
+
 			}
 		},
 		function(err, partition) {
@@ -105,23 +119,21 @@ exports.getS3sign = function(req, res, next) {
 }
 
 exports.s3chunkLoaded = function(req, res, next) {
-	console.log('Finding...', req.query.videoId, req.query.filename, req.query.filesize);
-	// Try to find related partition and update else create new
+	// Find existing partition
 	Partition.findOne({
 		videoId: req.query.videoId,
 		originalFileName: req.query.filename,
 		filesize: req.query.filesize,
 		status: 'inprogress'
 	}).exec(function(err, partition) {
-		console.log(partition);
 		if(err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
 			// Update uploaded partition
-			partition.chunks[req.query.chunk] = req.query.chunk;
-			if(partition.chunks.length === partition.totalChunk) {
+			partition.chunks.push(req.query.chunk);
+			if(partition.totalChunk && partition.chunks.length === partition.totalChunk) {
 				partition.status = 'completed';
 			}
 			if(!partition.uploadId) {
