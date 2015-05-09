@@ -28,11 +28,7 @@
 										<a ng-href="{{file.url}}" target="_blank">{{file.name}} completed</a>
 									</li>
 								</ul>
-								<div class="progress" ng-repeat="file in files" ng-show="!file.completed">
-									<div class="progress-bar" role="progressbar" aria-valuenow="{{file.progress}}" aria-valuemin="0" aria-valuemax="100" style="width: file.progress">
-										<span class="sr-only">{{file.progress}}% completed</span>
-									</div>
-								</div>
+								<progressbar class="progress-striped active" value="uploadProgress/uploadTotal*100" type="danger"><i>{{uploadProgress}} / {{uploadTotal}}</i></progressbar>
 							</div>
 						</div>
 						<div class="form-group">

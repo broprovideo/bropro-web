@@ -5,13 +5,15 @@
  */
 var path = require('path'),
 	mongoose = require('mongoose'),
-	Paritition = mongoose.model('Paritition'),
+	Partition = mongoose.model('Partition'),
 	crypto = require('crypto'),
+	shortid = require('shortid'),
+	async = require('async'),
 	moment = require('moment-timezone'),
 	errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 /*
- * Config VARs
+ * Config AWS constatats
  */
 var AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY;
 var AWS_SECRET_KEY = process.env.AWS_SECRET_KEY;
@@ -30,137 +32,113 @@ function getSignatureKey(key, dateStamp, regionName, serviceName) {
 }
 
 /**
- * Create a paritition
- */
-exports.create = function(req, res) {
-	var paritition = new Paritition(req.body);
-	paritition.user = req.user;
-
-	paritition.save(function(err) {
-		if (err) {
-			return res.status(400).send({
-				message: errorHandler.getErrorMessage(err)
-			});
-		} else {
-			res.json(paritition);
-		}
-	});
-};
-
-/**
- * Show the current paritition
- */
-exports.read = function(req, res) {
-	res.json(req.paritition);
-};
-
-/**
- * Update a paritition
- */
-exports.update = function(req, res) {
-	var paritition = req.paritition;
-
-	paritition.title = req.body.title;
-	paritition.content = req.body.content;
-
-	paritition.save(function(err) {
-		if (err) {
-			return res.status(400).send({
-				message: errorHandler.getErrorMessage(err)
-			});
-		} else {
-			res.json(paritition);
-		}
-	});
-};
-
-/**
- * Delete an paritition
- */
-exports.delete = function(req, res) {
-	var paritition = req.paritition;
-
-	paritition.remove(function(err) {
-		if (err) {
-			return res.status(400).send({
-				message: errorHandler.getErrorMessage(err)
-			});
-		} else {
-			res.json(paritition);
-		}
-	});
-};
-
-/**
- * List of Paritition
- */
-exports.list = function(req, res) {
-	Paritition.find().sort('-created').populate('user', 'displayName').exec(function(err, videos) {
-		if (err) {
-			return res.status(400).send({
-				message: errorHandler.getErrorMessage(err)
-			});
-		} else {
-			res.json(videos);
-		}
-	});
-};
-
-/**
- * Paritition middleware
- */
-exports.partitionByID = function(req, res, next, id) {
-	Paritition.findById(id).populate('user', 'displayName').exec(function(err, paritition) {
-		if (err) return next(err);
-		if (!paritition) return next(new Error('Failed to load paritition ' + id));
-		req.paritition = paritition;
-		next();
-	});
-};
-
-
-/**
  * Get S3 signature - Based on mule uploader
  * This action also will try to resume unfinished uploads
  * Refer to here : https://github.com/cinely/mule-uploader#mule-upload
  */
 exports.getS3sign = function(req, res, next) {
-	console.log(AWS_SECRET_KEY, moment.tz('America/Virginia').format('YYYYMMDD'), 'us-east-1', 's3');
-	Paritition.find({
-		project: req.query.projectId,
-		filename: req.query.filename,
-		filesize: req.query.filesize
-	}).exec(function(paritition) {
-		if(paritition) {
-			// Return existing paritition record
-			res.set('Content-Type', 'text/html');
-			res.jsonp({
+	console.log('Finding...', req.query.videoId, req.query.filename, req.query.filesize);
+	async.waterfall([
+		function(callback) {
+			// Try to find related partition else create new
+			Partition.findOne({
+				videoId: req.query.videoId,
+				originalFileName: req.query.filename,
+				filesize: req.query.filesize,
+				status: 'inprogress'
+			}).exec(function(err, partition) {
+				callback(null, err, partition);
+			});
+		},
+		function(err, partition, callback) {
+			//Check if partition is found
+			if(partition) {
+				callback(null, err, partition);
+			} else {
+
+				// Create and load information to partition
+				var partition = new Partition({
+					videoId: req.query.videoId,
+					originalFileName: req.query.filename,
+					filesize: req.query.filesize,
+					key: shortid.generate(),
+					backupKey: shortid.generate(),
+					totalChunk: Math.ceil(req.query.filesize/6291456)
+				});
+				partition.user = req.user;
+
+				// Save Partition, save when done
+				partition.save(function(err) {
+					if (err) {
+						return res.status(400).send({
+							message: errorHandler.getErrorMessage(err)
+						});
+					} else {
+						callback(null, err, partition)
+					}
+				});
+			}
+		},
+		function(err, partition) {
+			// Prepare reply objects with basic required attribute
+			var response = {
 				access_key: AWS_ACCESS_KEY,
-				key: 'file1',
-				backup_key: '3543543',
+				key: partition.key,
+				backup_key: partition.backupKey,
 				bucket: S3_BUCKET,
+				chunks: partition.chunks,
 				content_type: 'application/octet-stream',
 				date: moment().toISOString(),
 				region: 'us-east-1',
 				signature: getSignatureKey(AWS_SECRET_KEY, moment.tz('America/Virginia').format('YYYYMMDD'), 'us-east-1', 's3' )
-			});
-		} else {
-			// Make new paritition
+			};
+			// Add optional attribute
+			if(partition.uploadId) {
+				response.upload_id = partition.uploadId;
+			}
+
+			// Send response
 			res.set('Content-Type', 'text/html');
-			res.jsonp({
-				access_key: AWS_ACCESS_KEY,
-				key: 'file1',
-				backup_key: '3543543',
-				bucket: S3_BUCKET,
-				content_type: 'application/octet-stream',
-				date: moment().toISOString(),
-				region: 'us-east-1',
-				signature: getSignatureKey(AWS_SECRET_KEY, moment.tz('America/Virginia').format('YYYYMMDD'), 'us-east-1', 's3' )
-			});
+			res.jsonp(response);
 		}
-	});
+	]);
 }
 
 exports.s3chunkLoaded = function(req, res, next) {
-	res.sendStatus(200);
+	console.log('Finding...', req.query.videoId, req.query.filename, req.query.filesize);
+	// Try to find related partition and update else create new
+	Partition.findOne({
+		videoId: req.query.videoId,
+		originalFileName: req.query.filename,
+		filesize: req.query.filesize,
+		status: 'inprogress'
+	}).exec(function(err, partition) {
+		console.log(partition);
+		if(err) {
+			return res.status(400).send({
+				message: errorHandler.getErrorMessage(err)
+			});
+		} else {
+			// Update uploaded partition
+			partition.chunks[req.query.chunk] = req.query.chunk;
+			if(partition.chunks.length === partition.totalChunk) {
+				partition.status = 'completed';
+			}
+			if(!partition.uploadId) {
+				partition.uploadId = req.query.upload_id;
+			}
+
+			// Save updated partition
+			partition.save(function(err) {
+				if(err) {
+					return res.status(400).send({
+						message: errorHandler.getErrorMessage(err)
+					});
+				} else {
+					res.sendStatus(200);
+				}
+			})
+
+		}
+	});
 }

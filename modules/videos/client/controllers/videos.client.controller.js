@@ -7,6 +7,9 @@ angular.module('videos').controller('VideosController', ['$scope', '$stateParams
 		// If user is signed in then redirect back home
 		if (!$scope.authentication.user) $location.path('/authentication/signin');
 
+
+		$scope.uploadProgress = 0;
+		$scope.uploadTotal = 100;
 		// Videos folders
 		var settings = {
 			file_input: document.getElementById('files'),
@@ -32,7 +35,10 @@ angular.module('videos').controller('VideosController', ['$scope', '$stateParams
 				console.log(fileObj);
 			},
 			on_progress: function(bytes_uploaded, bytes_total) {
-				console.log('Uploading ', bytes_uploaded, ' of ', bytes_total)
+				$scope.uploadProgress = bytes_uploaded;
+				$scope.uploadTotal = bytes_total;
+				console.log($scope.uploadProgress, $scope.uploadTotal);
+				$scope.$apply();
 			},
 			on_init: function() {
 
