@@ -32,6 +32,10 @@ function getSignatureKey(key, dateStamp, regionName, serviceName) {
 	return kSigning;
 }
 
+function getFileExtension(filename) {
+	return filename.split('.').pop();
+}
+
 /**
  * Get S3 signature - Based on mule uploader
  * This action also will try to resume unfinished uploads
@@ -61,11 +65,11 @@ exports.getS3sign = function(req, res, next) {
 					videoId: req.query.videoId,
 					originalFileName: req.query.filename,
 					filesize: req.query.filesize,
-					key: shortid.generate(),
+					key: shortid.generate() + '.' + getFileExtension(req.query.filename),
 					backupKey: shortid.generate(),
-					totalChunk: Math.ceil(req.query.filesize/6291456)
+					totalChunk: Math.ceil(req.query.filesize/6291456),
+					partition.user: req.user
 				});
-				partition.user = req.user;
 
 				// Save Partition, save when done
 				partition.save(function(err) {
@@ -89,8 +93,6 @@ exports.getS3sign = function(req, res, next) {
 						});
 					}
 				});
-
-
 			}
 		},
 		function(err, partition) {
@@ -135,6 +137,7 @@ exports.s3chunkLoaded = function(req, res, next) {
 			partition.chunks.push(req.query.chunk);
 			if(partition.totalChunk && partition.chunks.length === partition.totalChunk) {
 				partition.status = 'completed';
+				partition.resultPath = 'https://s3.amazonaws.com/'+S3_BUCKET+'/'+partition.key;
 			}
 			if(!partition.uploadId) {
 				partition.uploadId = req.query.upload_id;

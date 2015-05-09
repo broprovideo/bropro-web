@@ -48,6 +48,10 @@ var PartitionSchema = new Schema({
 		type: Number,
 		default: 0
 	},
+	resultPath: {
+		type: String,
+		default: ''
+	},
 	status: {
 		// Status can be either 'inprogress' or 'completed'
 		type: String,
