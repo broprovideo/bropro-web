@@ -11,14 +11,8 @@ var path = require('path'),
 	shortid = require('shortid'),
 	async = require('async'),
 	moment = require('moment-timezone'),
+	config = require(path.resolve('./config/config')),
 	errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
-
-/*
- * Config AWS constatats
- */
-var AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY;
-var AWS_SECRET_KEY = process.env.AWS_SECRET_KEY;
-var S3_BUCKET = process.env.S3_BUCKET;
 
 /*
  * Router functions
@@ -98,15 +92,15 @@ exports.getS3sign = function(req, res, next) {
 		function(err, partition) {
 			// Prepare reply objects with basic required attribute
 			var response = {
-				access_key: AWS_ACCESS_KEY,
+				access_key: config.uploaderOptions.accessKey,
 				key: partition.key,
 				backup_key: partition.backupKey,
-				bucket: S3_BUCKET,
+				bucket: config.uploaderOptions.bucket,
 				chunks: partition.chunks,
 				content_type: 'application/octet-stream',
 				date: moment().toISOString(),
 				region: 'us-east-1',
-				signature: getSignatureKey(AWS_SECRET_KEY, moment.tz('America/Virginia').format('YYYYMMDD'), 'us-east-1', 's3' )
+				signature: getSignatureKey(config.uploaderOptions.secretKey, moment.tz('America/Virginia').format('YYYYMMDD'), 'us-east-1', 's3' )
 			};
 			// Add optional attribute
 			if(partition.uploadId) {
@@ -137,7 +131,7 @@ exports.s3chunkLoaded = function(req, res, next) {
 			partition.chunks.push(req.query.chunk);
 			if(partition.totalChunk && partition.chunks.length === partition.totalChunk) {
 				partition.status = 'completed';
-				partition.resultPath = 'https://s3.amazonaws.com/'+S3_BUCKET+'/'+partition.key;
+				partition.resultPath = 'https://s3.amazonaws.com/'+config.uploaderOptions.bucket+'/'+partition.key;
 			}
 			if(!partition.uploadId) {
 				partition.uploadId = req.query.upload_id;

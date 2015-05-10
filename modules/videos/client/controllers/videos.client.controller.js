@@ -12,10 +12,10 @@ angular.module('videos').controller('VideosController', ['$scope', '$stateParams
 		// Videos folders
 		var settings = {
 			file_input: document.getElementById('files'),
-			access_key: 'AKIAINESKCCNAOX7CVHQ',
+			access_key: window.app.config.uploaderAccessKey,
 			content_type: 'application/octet-stream',
-			bucket: 'indrasantosa.uploads',
-			region: 'us-east-1',
+			bucket: window.app.config.uploaderBucketName,
+			region: window.app.config.uploaderS3Region,
 			ajax_base: '/api/partitions',
 			extra_params: {
 				videoId: $stateParams.videoId,

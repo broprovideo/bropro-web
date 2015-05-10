@@ -63,6 +63,17 @@
 	<!--Application JavaScript Files-->
 	{% for jsFile in jsFiles %}<script type="text/javascript" src="{{jsFile}}"></script>{% endfor %}
 
+	<!--Load server specific parameter-->
+	<script type="text/javascript">
+		window.app = {
+			config: {
+				uploaderAccessKey: '{{uploaderOptions.accessKey}}',
+				uploaderBucketName: '{{uploaderOptions.bucket}}',
+				uploaderS3Region: '{{uploaderOptions.region}}'
+			}
+		};
+	</script>
+
 	{% if process.env.NODE_ENV === 'development' %}
 	<!--Livereload script rendered -->
 	<script type="text/javascript" src="{{host}}:35729/livereload.js"></script>

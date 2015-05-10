@@ -36,5 +36,11 @@ module.exports = {
                 pass: process.env.MAILER_PASSWORD || 'MAILER_PASSWORD'
             }
         }
-    }
+    },
+  	uploaderOptions: {
+  		accessKey: process.env.UPLOADER_AWS_ACCESS_KEY || 'AKIAIIQMKQOPPKZKAMCA',
+  		secretKey: process.env.UPLOADER_AWS_SECRET_KEY || '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',
+  		bucket: process.env.UPLOADER_S3_BUCKET || 'beta.bropro',
+  		region: process.env.UPLOADER_REGION || 'us-east-1'
+  	}
 };
