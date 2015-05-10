@@ -25,7 +25,10 @@ var VideoSchema = new Schema({
 		default: '',
 		trim: true
 	},
-	partitions: [Schema.Types.ObjectId],
+	partitions: [{
+		type: Schema.Types.ObjectId,
+		ref: 'Partition'
+	}],
 	user: {
 		type: Schema.ObjectId,
 		ref: 'User'

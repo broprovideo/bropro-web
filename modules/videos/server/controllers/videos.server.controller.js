@@ -90,7 +90,10 @@ exports.list = function(req, res) {
  * Video middleware
  */
 exports.videoByID = function(req, res, next, id) {
-	Video.findById(id).populate('user', 'displayName').exec(function(err, video) {
+	Video.findById(id)
+	.populate('user', 'displayName')
+	.populate('partitions')
+	.exec(function(err, video) {
 		if (err) return next(err);
 		if (!video) return next(new Error('Failed to load video ' + id));
 		req.video = video;

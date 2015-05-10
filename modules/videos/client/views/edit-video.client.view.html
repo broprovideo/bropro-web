@@ -23,12 +23,11 @@
 							<label class="control-label" for="content">Videos</label>
 							<div class="controls">
 								<input type="file" type="text" id="files" multiple="multiple" ng-model="files">
-								<ul>
-									<li ng-repeat="file in files" ng-show="file.completed">
-										<a ng-href="{{file.url}}" target="_blank">{{file.name}} completed</a>
-									</li>
-								</ul>
 								<progressbar class="progress-striped active" value="uploadProgress/uploadTotal*100" type="danger"><i>{{uploadProgress/uploadTotal*100 | number:0}}%</i></progressbar>
+								<div ng-repeat="partition in video.partitions" ng-show="partition.status='completed'">
+									<a ng-href="{{partition.resultPath}}" target="_blank">{{partition.originalFileName}}</a>
+
+								</div>
 							</div>
 						</div>
 						<div class="form-group">
