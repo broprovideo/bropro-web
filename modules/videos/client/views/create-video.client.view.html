@@ -14,28 +14,6 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="control-label" for="content">Videos</label>
-							<div class="controls">
-								<input type="file" type="text" id="files" multiple="multiple" ng-model="files">
-								<ul>
-									<li ng-repeat="file in files" ng-show="file.completed">
-										<a ng-href="{{file.url}}" target="_blank">{{file.name}} completed</a>
-									</li>
-								</ul>
-								<div class="progress" ng-repeat="file in files" ng-show="!file.completed">
-									<div class="progress-bar" role="progressbar" aria-valuenow="{{file.progress}}" aria-valuemin="0" aria-valuemax="100" style="width: file.progress">
-										<span class="sr-only">{{file.progresss}}% completed</span>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="control-label" for="content">Comments</label>
-							<div class="controls">
-								<textarea name="content" data-ng-model="content" id="content" class="form-control" cols="30" rows="7" placeholder="Content"></textarea>
-							</div>
-						</div>
-						<div class="form-group">
 							<input type="submit" class="btn btn-primary" value="Make Me A Hero Bro">
 						</div>
 						<div data-ng-show="error" class="text-danger">

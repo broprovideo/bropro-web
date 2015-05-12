@@ -54,10 +54,9 @@ angular.module('videos').controller('VideosController', ['$scope', '$stateParams
 		$scope.create = function() {
 			var video = new Videos({
 				title: this.title,
-				content: this.content
 			});
 			video.$save(function(response) {
-				$location.path('videos/' + response._id);
+				$location.path('videos/' + response._id + '/edit');
 
 				$scope.title = '';
 				$scope.content = '';
