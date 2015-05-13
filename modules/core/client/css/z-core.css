@@ -206,8 +206,8 @@ ul.nav-pills li.active a {
 	color: #b7b7b7;
 }
 .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
-	background-color: #676767;
-	color: #cccccc;
+	background-color: #676767 !important;
+	color: #cccccc !important;
 }
 .dropdown-menu .divider {
 	background-color: #676767;
