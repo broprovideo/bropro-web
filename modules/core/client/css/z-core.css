@@ -107,6 +107,12 @@ label, #signup .wrapper .formy .form-group label {
 }
 
 
+.progress {
+  margin-top: 10px;
+}
+
+
+
 /* BUTTONS */
 
 .btn-primary, .btn-default, .btn {
@@ -127,6 +133,11 @@ label, #signup .wrapper .formy .form-group label {
 	margin-top: 15px;
 }
 
+.btn-danger, .btn-default, .btn-info, .btn-primary, .btn-success, .btn-warning {
+  text-shadow: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
 
 /* NAVS */
 
