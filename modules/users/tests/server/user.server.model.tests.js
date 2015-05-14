@@ -18,20 +18,12 @@ var user, user2;
 describe('User Model Unit Tests:', function() {
 	before(function(done) {
 		user = new User({
-			firstName: 'Full',
-			lastName: 'Name',
-			displayName: 'Full Name',
 			email: 'test@test.com',
-			username: 'username',
 			password: 'password',
 			provider: 'local'
 		});
 		user2 = new User({
-			firstName: 'Full',
-			lastName: 'Name',
-			displayName: 'Full Name',
 			email: 'test@test.com',
-			username: 'username',
 			password: 'password',
 			provider: 'local'
 		});
@@ -56,7 +48,7 @@ describe('User Model Unit Tests:', function() {
 				user2.save(function(err) {
 					should.exist(err);
 					done();
-				});	
+				});
 			});
 		});
 
