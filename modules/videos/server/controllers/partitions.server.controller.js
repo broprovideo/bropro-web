@@ -54,26 +54,26 @@ exports.getS3sign = function(req, res, next) {
 				callback(null, err, partition);
 			} else {
 
-				// Create and load information to partition
-				var partition = new Partition({
-					videoId: req.query.videoId,
-					originalFileName: req.query.filename,
-					filesize: req.query.filesize,
-					key: shortid.generate() + '.' + getFileExtension(req.query.filename),
-					backupKey: shortid.generate(),
-					totalChunk: Math.ceil(req.query.filesize/6291456),
-					user: req.user
-				});
+				Video.findById(req.query.videoId).exec(function(err, video) {
+					// Create and load information to partition
+					var partition = new Partition({
+						videoId: req.query.videoId,
+						originalFileName: req.query.filename,
+						filesize: req.query.filesize,
+						key: req.user.email+"/"+video.id+"/"+ shortid.generate() + '.' + getFileExtension(req.query.filename),
+						backupKey: shortid.generate(),
+						totalChunk: Math.ceil(req.query.filesize/6291456),
+						user: req.user
+					});
 
-				// Save Partition, save when done
-				partition.save(function(err) {
-					if (err) {
-						return res.status(400).send({
-							message: errorHandler.getErrorMessage(err)
-						});
-					} else {
-						// Find partitions to the video partitions
-						Video.findById(req.query.videoId).exec(function(err, video) {
+					// Save Partition, save when done
+					partition.save(function(err) {
+						if (err) {
+							return res.status(400).send({
+								message: errorHandler.getErrorMessage(err)
+							});
+						} else {
+							// Find partitions to the video partitions
 							video.partitions.push(partition);
 							video.save(function(err) {
 								if (err) {
@@ -84,8 +84,9 @@ exports.getS3sign = function(req, res, next) {
 									callback(null, err, partition)
 								}
 							});
-						});
-					}
+						}
+					});
+
 				});
 			}
 		},
