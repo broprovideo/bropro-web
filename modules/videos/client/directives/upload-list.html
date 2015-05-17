@@ -1,0 +1,7 @@
+<div>
+	<a ng-href="{{partition.resultPath}}" target="_blank">{{partition.originalFileName}}</a>
+	<!-- <div>{{partition.status}} {{partition.chunks}} {{partition.totalChunk}}</div> -->
+	<progressbar ng-hide="partition.status == 'completed'" class="progress-striped active" value="partition.progress" type="danger"><i>{{partition.progress}}%</i></progressbar>
+	<span ng-show="partition.status == 'completed'"> - completed</span>
+	<input ng-hide="partition.status == 'completed'" type="file" type="text" id="input{{partition._id}}" ng-init="initUpdateLink(partition)">
+</div>

@@ -229,20 +229,20 @@
 							} else {
 								if (u.input) {
 	                  u.input.onchange = function(e, force) {
-	                      if(!u.settings.autostart) {
-	                          return true;
-	                      }
-	                      // the `onchange` event may be triggered multiple times, so we
-	                      // must ensure that the callback is only executed the first time
-	                      if(u.get_state() != "waiting") {
-	                          return false;
-	                      }
+                      if(!u.settings.autostart) {
+                          return true;
+                      }
+                      // the `onchange` event may be triggered multiple times, so we
+                      // must ensure that the callback is only executed the first time
+                      if(u.get_state() != "waiting") {
+                          return false;
+                      }
 
-	                      // the uploader doesn't support multiple uploads at this time,
-	                      // so we get the first file
-	                      var file = e.target.files[0];
-	                      u.upload_file(file, force);
-	                      return true;
+                      // the uploader doesn't support multiple uploads at this time,
+                      // so we get the first file
+                      var file = e.target.files[0];
+                      u.upload_file(file, force);
+                      return true;
 	                  };
 	              }
 							}
@@ -775,8 +775,8 @@
                   };
               }
 
-              var host = "s3" + utils.region_string(u.settings.auth.region) + ".amazonaws.com";
-              var url = location.protocol + "//" + host + "/" + u.settings.auth.bucket + "/" + path;
+              var host = "s3" + utils.region_string(u.settings.region) + ".amazonaws.com";
+              var url = location.protocol + "//" + host + "/" + u.settings.bucket + "/" + path;
               XHR({
                   url: url,
                   method: method,
