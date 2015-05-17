@@ -48,6 +48,10 @@ var PartitionSchema = new Schema({
 		type: Number,
 		default: 0
 	},
+	progress: {
+		type: Number,
+		default: 0
+	},
 	resultPath: {
 		type: String,
 		default: ''
@@ -62,6 +66,11 @@ var PartitionSchema = new Schema({
 		type: String,
 		index: true
 	}
+});
+
+PartitionSchema.pre('save', function(next) {
+	this.progress = Math.floor(this.chunks.length/this.totalChunk*100);
+	next();
 });
 
 mongoose.model('Partition', PartitionSchema);

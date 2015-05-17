@@ -22,13 +22,16 @@
 						<div class="form-group">
 							<label class="control-label" for="content">Videos</label>
 							<div class="controls">
-								<input type="file" type="text" id="files" multiple="multiple" ng-model="files">
-								<progressbar class="progress-striped active" value="uploadProgress/uploadTotal*100" type="danger"><i>{{uploadProgress/uploadTotal*100 | number:0}}%</i></progressbar>
+								<input type="file" multiple="multiple" ng-model="files" onchange="angular.element(this).scope().queue(this)">
+
 								<div ng-repeat="partition in video.partitions">
 									<a ng-href="{{partition.resultPath}}" target="_blank">{{partition.originalFileName}}</a>
-									<div>{{partition.status}} {{partition.chunks}} {{partition.totalChunk}}</div>
-									<input type="file" type="text" class="fileInput">
+									<!-- <div>{{partition.status}} {{partition.chunks}} {{partition.totalChunk}}</div> -->
+									<progressbar ng-hide="partition.status == 'completed'" class="progress-striped active" value="partition.progress" type="danger"><i>{{partition.progress}}%</i></progressbar>
+									<span ng-show="partition.status == 'completed'"> - completed</span>
+									<!-- <input type="file" type="text" class="fileInput"> -->
 								</div>
+
 							</div>
 						</div>
 						<div class="form-group">
