@@ -55,7 +55,7 @@ exports.getS3sign = function(req, res, next) {
 			} else {
 
 				Video.findById(req.query.videoId).exec(function(err, video) {
-					var key = req.user.email+"/"+video.id+"/"+ shortid.generate() + '.' + getFileExtension(req.query.filename);
+					var key = req.user.email+"/"+video.id+"/"+ req.query.filename;
 					// Create and load information to partition
 					var partition = new Partition({
 						videoId: req.query.videoId,
