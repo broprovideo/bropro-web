@@ -22,7 +22,8 @@
 						<div class="form-group">
 							<label class="control-label" for="content">Videos</label>
 							<div class="controls">
-								<input type="file" multiple="multiple" ng-model="files" onchange="angular.element(this).scope().queue(this)">
+								<div style="width: 100%; padding: 50px 0px 50px; background-color: #333; text-align: center;" file-dropzone on-file-drop="queue"><span>Drop file here</span></div>
+								<input type="file" multiple="multiple" ng-model="files" onchange="angular.element(this).scope().queue(this.files)">
 
 								<div ng-repeat="partition in video.partitions">
 									<upload-list partition="partition"></upload-list>

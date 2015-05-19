@@ -103,7 +103,7 @@ exports.getS3sign = function(req, res, next) {
 				content_type: 'application/octet-stream',
 				date: moment().toISOString(),
 				region: 'us-east-1',
-				signature: getSignatureKey(config.uploaderOptions.secretKey, moment().format('YYYYMMDD'), 'us-east-1', 's3' ),
+				signature: getSignatureKey(config.uploaderOptions.secretKey, moment.tz('Africa/Bissau').format('YYYYMMDD'), 'us-east-1', 's3' ),
 				partition: partition
 			};
 			// Add optional attribute
