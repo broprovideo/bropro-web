@@ -10,7 +10,7 @@
 						<div class="form-group">
 							<label class="control-label" for="title">Title</label>
 							<div class="controls">
-								<input name="title" type="text" data-ng-model="title" id="title" class="form-control" placeholder="Title">
+								<input name="title" type="text" data-ng-model="title" id="title" class="form-control" placeholder="Title" ng-required="true">
 							</div>
 						</div>
 						<div class="form-group">
@@ -19,6 +19,9 @@
 						<div data-ng-show="error" class="text-danger">
 							<strong data-ng-bind="error"></strong>
 						</div>
+						  <div class="alert alert-danger"ng-show="userForm.name.$error.required">
+                       Please Enter A title
+                         </div>
 					</fieldset>
 				</form>
 				</div>
