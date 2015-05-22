@@ -1,0 +1,60 @@
+<section class="content">
+	<section class="container">
+		<section data-ng-controller="VideosController" data-ng-init="findOne()">
+			<div class="page-header">
+				<h1>Edit Video</h1>
+			</div>
+			<div class="col-md-7">
+				<form name="videoForm" class="form-horizontal" data-ng-submit="update()" novalidate>
+					<fieldset>
+						<div class="form-group">
+							<div class="controls">
+								Video ID: <span data-ng-bind="video.id"></span>
+							</div>
+						</div>
+						<div class="form-group">
+						
+							<div class="controls">
+							<h2>{{video.title}}</h2>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label" for="content">Upload Files</label>
+							<br>
+							<div class="controls">
+								<div class="dropzone" file-dropzone on-file-drop="queue"><span>Drop your video, photo and music files here</span></div>
+								<br>
+								<input type="file" multiple="multiple" ng-model="files" onchange="angular.element(this).scope().queue(this.files)">	
+								<div class="list-wrap">
+									<div ng-repeat="partition in video.partitions | orderBy:predicate:reverse">
+										<upload-list partition="partition"></upload-list>
+									</div>
+								</div>
+
+							</div>
+						</div>
+
+						
+						<div class="form-group line">
+							
+							<a data-ng-click="remove();">
+								<i class="glyphicon glyphicon-trash"></i> Delete Video
+							</a>
+						</div>
+						<div data-ng-show="error" class="text-danger">
+							<strong data-ng-bind="error"></strong>
+						</div>
+					</fieldset>
+				</form>
+			</div>
+			<div class="col-md-1"></div>
+			<div class="col-md-4">
+				<h2>Create A Video</h2>
+				<p>Upload your action cam footage, along with your chosen sound track, and the Bros will do the rest. </p>
+				<p>Your video should be ready within 48 hours.</p>
+				<h2>Payments</h2>
+				<p>You can pay for your video at the end, once you've seen the final draft.</p>
+			</div>
+		</section>
+	</section>
+</section>
