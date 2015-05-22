@@ -25,11 +25,10 @@
 								<div class="dropzone" file-dropzone on-file-drop="queue"><span>Drop your video, photo and music files here</span></div>
 								<br>
 								<input type="file" multiple="multiple" ng-model="files" onchange="angular.element(this).scope().queue(this.files)">	
-
-								<div ng-repeat="partition in video.partitions | orderBy:predicate:reverse">
-								<br>
-
-									<upload-list partition="partition"></upload-list>
+								<div class="list-wrap">
+									<div ng-repeat="partition in video.partitions | orderBy:predicate:reverse">
+										<upload-list partition="partition"></upload-list>
+									</div>
 								</div>
 
 							</div>
