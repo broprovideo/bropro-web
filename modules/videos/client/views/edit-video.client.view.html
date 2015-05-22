@@ -27,7 +27,7 @@
 								<br>
 								<input type="file" multiple="multiple" ng-model="files" onchange="angular.element(this).scope().queue(this.files)">	
 
-								<div ng-repeat="partition in video.partitions">
+								<div ng-repeat="partition in video.partitions | orderBy:predicate:reverse">
 									<upload-list partition="partition"></upload-list>
 								</div>
 
