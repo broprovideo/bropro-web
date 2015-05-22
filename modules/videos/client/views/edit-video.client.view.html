@@ -8,9 +8,8 @@
 				<form name="videoForm" class="form-horizontal" data-ng-submit="update()" novalidate>
 					<fieldset>
 						<div class="form-group">
-							<label class="control-label" for="title">Video Id</label>
 							<div class="controls">
-								<span data-ng-bind="video.id"></span>
+								Video ID: <span data-ng-bind="video.id"></span>
 							</div>
 						</div>
 						<div class="form-group">
@@ -23,10 +22,10 @@
 							<label class="control-label" for="content">Upload Files</label>
 							<br>
 							<div class="controls">
-								<div style="width: 100%; padding: 50px 0px 50px; background-color: #333; text-align: center;" file-dropzone on-file-drop="queue"><span>Drop your video, photo and music files here</span></div>
+								<div class="dropzone" file-dropzone on-file-drop="queue"><span>Drop your video, photo and music files here</span></div>
 								<br>
 								<input type="file" multiple="multiple" ng-model="files" onchange="angular.element(this).scope().queue(this.files)">	
-
+								<br>
 								<div ng-repeat="partition in video.partitions">
 									<upload-list partition="partition"></upload-list>
 								</div>
@@ -35,9 +34,9 @@
 						</div>
 
 						
-						<div class="form-group">
+						<div class="form-group line">
 							
-							<a class="" data-ng-click="remove();">
+							<a data-ng-click="remove();">
 								<i class="glyphicon glyphicon-trash"></i> Delete Video
 							</a>
 						</div>

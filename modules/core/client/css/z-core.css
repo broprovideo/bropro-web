@@ -3,6 +3,8 @@ body {
 	background: #373737;
 	color: #b7b7b7;
 	font-family: roboto, 'helvetica neue'  sans-serif;
+	font-weight: lighter;
+	letter-spacing: .017em;
 }
 
 a {
@@ -22,10 +24,23 @@ p {
 	color: #b7b7b7;	
 }
 
+nav {
+	font-weight: normal;
+}
+
+.line {
+	border-top: 1px solid #474747;
+	padding: 20px 0 0 0;
+}
+
 .page-header {
   padding-bottom: 9px;
   margin: 40px 0 20px;
   border-bottom: 1px solid #474747;
+}
+
+.list-group, .list-group h4 {
+	font-weight: normal;
 }
 
 
@@ -88,6 +103,11 @@ label, #signup .wrapper .formy .form-group label {
   font-weight: lighter;
   letter-spacing: .05em;
   text-transform: uppercase;
+}
+.form-horizontal .control-label, .form-horizontal .radio, .form-horizontal .checkbox, .form-horizontal .radio-inline, .form-horizontal .checkbox-inline {
+  padding-top: 7px;
+  margin-top: 0;
+  margin-bottom: 5px;
 }
 
 ::-webkit-input-placeholder {
@@ -222,7 +242,13 @@ ul.nav-pills li.active a {
 
 
 
-
+.dropzone {
+	width: 100%; 
+	padding: 70px 0px 30px; 
+	background: #484848 url('/modules/core/img/drop-icons.png')  center 20px no-repeat; 
+	text-align: center;
+	border:2px dashed #676767;
+}
 
 
 
