@@ -6,5 +6,5 @@
 	<span>{{partition.originalFileName}}</span>
 
 	<span ng-show="partition.status == 'completed'"> - Got it!</span>
-
+	<input ng-hide="partition.status == 'completed'" type="file" type="text" id="input{{partition._id}}" ng-init="initUpdateLink(partition)">
 </div>
