@@ -4,13 +4,27 @@
  * Module dependencies.
  */
 var partitionPolicy = require('../policies/partitions.server.policy'),
-	partition = require('../controllers/partitions.server.controller');
+	partitions = require('../controllers/partitions.server.controller');
 
 module.exports = function(app) {
-	
+
 	// Mule-uploader routes
 	app.route('/api/partitions/signing_key/')
-		.get(partition.getS3sign);
+		.get(partitions.getS3sign);
 	app.route('/api/partitions/chunk_loaded/')
-		.get(partition.s3chunkLoaded);
+		.get(partitions.s3chunkLoaded);
+
+	// Partitions collection routes
+	app.route('/api/video/:videoId/partitions').all(partitionPolicy.isAllowed)
+		.get(partitions.list)
+		.post(partitions.create);
+
+	// Single video routes
+	app.route('/api/video/:videoId/partitions/:parititionId').all(partitionPolicy.isAllowed)
+		.get(partitions.read)
+		.put(partitions.update)
+		.delete(partitions.delete);
+
+	// Finish by binding the video middleware
+	app.param('partitionId', partitions.partitionByID);
 };

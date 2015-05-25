@@ -4,6 +4,7 @@
  * Module dependencies.
  */
 var path = require('path'),
+	_ = require('lodash'),
 	mongoose = require('mongoose'),
 	Partition = mongoose.model('Partition'),
 	Video = mongoose.model('Video'),
@@ -55,7 +56,7 @@ exports.getS3sign = function(req, res, next) {
 			} else {
 
 				Video.findById(req.query.videoId).exec(function(err, video) {
-					var key = req.user.email+"/"+video.id+"/"+ req.query.filename;
+					var key = req.user.email+'/'+video.id+'/'+ req.query.filename;
 					// Create and load information to partition
 					var partition = new Partition({
 						videoId: req.query.videoId,
@@ -83,7 +84,7 @@ exports.getS3sign = function(req, res, next) {
 										message: errorHandler.getErrorMessage(err)
 									});
 								} else {
-									callback(null, err, partition)
+									callback(null, err, partition);
 								}
 							});
 						}
@@ -116,7 +117,7 @@ exports.getS3sign = function(req, res, next) {
 			res.jsonp(response);
 		}
 	]);
-}
+};
 
 exports.s3chunkLoaded = function(req, res, next) {
 	// Find existing partition
@@ -149,8 +150,105 @@ exports.s3chunkLoaded = function(req, res, next) {
 				} else {
 					res.sendStatus(200);
 				}
-			})
+			});
 
 		}
 	});
-}
+};
+
+/**
+ * Create a partition
+ */
+exports.create = function(req, res) {
+	var partition = new Partition(req.body);
+	partition.user = req.user;
+
+	partition.save(function(err) {
+		if (err) {
+			return res.status(400).send({
+				message: errorHandler.getErrorMessage(err)
+			});
+		} else {
+			res.json(partition);
+		}
+	});
+};
+
+/**
+ * Show the current partition
+ */
+exports.read = function(req, res) {
+	res.json(req.partition);
+};
+
+/**
+ * Update a partition
+ */
+exports.update = function(req, res) {
+	var partition = req.partition;
+
+	partition = _.extends(partition, req.body);
+
+	partition.save(function(err) {
+		if (err) {
+			return res.status(400).send({
+				message: errorHandler.getErrorMessage(err)
+			});
+		} else {
+			res.json(partition);
+		}
+	});
+};
+
+/**
+ * Delete an partition
+ */
+exports.delete = function(req, res) {
+	var partition = req.partition;
+
+	partition.remove(function(err) {
+		if (err) {
+			return res.status(400).send({
+				message: errorHandler.getErrorMessage(err)
+			});
+		} else {
+			res.json(partition);
+		}
+	});
+};
+
+/**
+ * List of Videos
+ */
+exports.list = function(req, res) {
+	// If user is admin, show all the partition list, else only show videos belongs to him
+	var query;
+	if(req.video) {
+		query = Partition.find();
+	} else {
+		query = Partition.find({video: req.video});
+	}
+
+	query.sort('-created').populate('user').exec(function(err, videos) {
+		if (err) {
+			return res.status(400).send({
+				message: errorHandler.getErrorMessage(err)
+			});
+		} else {
+			res.json(videos);
+		}
+	});
+};
+
+/**
+ * Video middleware
+ */
+exports.partitionByID = function(req, res, next, id) {
+	Partition.findById(id)
+	.exec(function(err, partition) {
+		if (err) return next(err);
+		if (!partition) return next(new Error('Failed to load partition ' + id));
+		req.partition = partition;
+		next();
+	});
+};

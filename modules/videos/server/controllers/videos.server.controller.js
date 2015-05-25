@@ -76,13 +76,14 @@ exports.delete = function(req, res) {
  */
 exports.list = function(req, res) {
 	// If user is admin, show all the video list, else only show videos belongs to him
-	if(req.user.roles.indexOf('admin') != -1) {
-		var query = Video.find();
+	var query;
+	if(req.user.roles.indexOf('admin') !== -1) {
+		query = Video.find();
 	} else {
-		var query = Video.find({user: req.user});
+		query = Video.find({user: req.user});
 	}
 
-	query.sort('-created').populate('user', 'displayName').exec(function(err, videos) {
+	query.sort('-created').populate('user').exec(function(err, videos) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
@@ -98,7 +99,7 @@ exports.list = function(req, res) {
  */
 exports.videoByID = function(req, res, next, id) {
 	Video.findById(id)
-	.populate('user', 'displayName')
+	.populate('user')
 	.populate('partitions')
 	.exec(function(err, video) {
 		if (err) return next(err);
