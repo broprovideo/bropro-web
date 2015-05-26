@@ -132,6 +132,12 @@ exports.s3chunkLoaded = function(req, res, next) {
 				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
+			console.log({
+				videoId: req.query.videoId,
+				originalFileName: req.query.filename,
+				filesize: req.query.filesize,
+				status: 'inprogress'
+			});
 			// Update uploaded partition
 			partition.chunks.push(req.query.chunk);
 			if(partition.totalChunk && partition.chunks.length === partition.totalChunk) {
@@ -160,8 +166,19 @@ exports.s3chunkLoaded = function(req, res, next) {
  * Create a partition
  */
 exports.create = function(req, res) {
-	var partition = new Partition(req.body);
-	partition.user = req.user;
+	var video = req.video;
+	var key = req.user.email+'/'+video.id+'/'+ req.body.originalFileName;
+
+	var partition = new Partition({
+		videoId: req.body.videoId,
+		originalFileName: req.body.originalFileName,
+		filesize: req.body.filesize,
+		key: key,
+		backupKey: shortid.generate(),
+		totalChunk: Math.ceil(req.body.filesize/6291456),
+		resultPath: 'https://s3.amazonaws.com/'+config.uploaderOptions.bucket+'/'+key,
+		user: req.user
+	});
 
 	partition.save(function(err) {
 		if (err) {
@@ -169,7 +186,16 @@ exports.create = function(req, res) {
 				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
-			res.json(partition);
+			video.partitions.push(partition);
+			video.save(function(err) {
+				if (err) {
+					return res.status(400).send({
+						message: errorHandler.getErrorMessage(err)
+					});
+				} else {
+					res.json(partition);
+				}
+			});
 		}
 	});
 };

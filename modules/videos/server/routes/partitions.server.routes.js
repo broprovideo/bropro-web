@@ -15,12 +15,12 @@ module.exports = function(app) {
 		.get(partitions.s3chunkLoaded);
 
 	// Partitions collection routes
-	app.route('/api/video/:videoId/partitions').all(partitionPolicy.isAllowed)
+	app.route('/api/videos/:videoId/partitions').all(partitionPolicy.isAllowed)
 		.get(partitions.list)
 		.post(partitions.create);
 
 	// Single video routes
-	app.route('/api/video/:videoId/partitions/:parititionId').all(partitionPolicy.isAllowed)
+	app.route('/api/videos/:videoId/partitions/:parititionId').all(partitionPolicy.isAllowed)
 		.get(partitions.read)
 		.put(partitions.update)
 		.delete(partitions.delete);
