@@ -224,8 +224,10 @@
               u.set_state("waiting");
 
 							if(u.file) {
-								u.upload_file(u.file);
-								return true;
+                if(u.settings.autostart) {
+                  u.upload_file(u.file);
+                }
+                return true;
 							} else {
 								if (u.input) {
 	                  u.input.onchange = function(e, force) {
@@ -753,7 +755,7 @@
           Uploader.prototype.check_already_uploaded = function(callback, error_callback) {
               var u = this;
               var method = "HEAD";
-              var path = "/" + u.settings.key;
+              var path = u.settings.key;
               var inner_handler = function(e) {
                   // the handler only checks for status code;
                   // if the HEAD returns 404, re-upload,

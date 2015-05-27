@@ -65,6 +65,10 @@ var PartitionSchema = new Schema({
 	videoId: {
 		type: String,
 		index: true
+	},
+	user: {
+		type: Schema.ObjectId,
+		ref: 'User'
 	}
 });
 
