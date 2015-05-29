@@ -48,6 +48,32 @@
 		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
 
+<script>
+var uri = window.location.pathname.substr(1);
+if(uri == "signup"){
+(function() {
+  var _fbq = window._fbq || (window._fbq = []);
+  if (!_fbq.loaded) {
+    var fbds = document.createElement('script');
+    fbds.async = true;
+    fbds.src = '//connect.facebook.net/en_US/fbds.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(fbds, s);
+    _fbq.loaded = true;
+  }
+})();
+window._fbq = window._fbq || [];
+window._fbq.push(['track', '6028368347518', {'value':'0.00','currency':'SGD'}]);
+
+}
+</script>
+
+<noscript><img height="1" width="1" alt="" style="display:none" src="https://www.facebook.com/tr?ev=6028368347518&amp;cd[value]=0.00&amp;cd[currency]=SGD&amp;noscript=1" /></noscript>
+
+
+
+
+
 </head>
 
 <body data-ng-controller="BodyController" class="ng-cloak">
