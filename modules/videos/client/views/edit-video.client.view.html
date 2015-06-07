@@ -48,7 +48,7 @@
 							<a class="btn" ng-class="{disabled: video.status == 'submitted' }" data-ng-click="submit()">
 								<i class="glyphicon glyphicon-send"></i> {{video.status == 'submitted' ? 'Videos sent' : 'Send Video' }}
 							</a>
-							<a class="btn" data-ng-click="remove();">
+							<a class="btn" ng-class="{disabled: video.status == 'submitted' }" data-ng-click="remove();">
 								<i class="glyphicon glyphicon-trash"></i> Delete Video
 							</a>
 						</div>

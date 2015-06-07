@@ -62,6 +62,10 @@ exports.update = function(req, res) {
 exports.delete = function(req, res) {
 	var video = req.video;
 
+	if(video.status === 'submitted') {
+		return next(new Error('unable to delete submitted video'));
+	}
+
 	video.remove(function(err) {
 		if (err) {
 			return res.status(400).send({
@@ -100,7 +104,7 @@ exports.list = function(req, res) {
  * List of Videos
  */
 exports.submit = function(req, res, next) {
-	// If user is admin, show all the video list, else only show videos belongs to him
+	// Submit video for processing
 	var video = req.video;
 	if(video.status == 'submitted')
 		return next(new Error('Failed to load video ' + id));
