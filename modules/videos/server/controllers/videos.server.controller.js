@@ -95,6 +95,28 @@ exports.list = function(req, res) {
 };
 
 /**
+ * List of Videos
+ */
+exports.submit = function(req, res, next) {
+	// If user is admin, show all the video list, else only show videos belongs to him
+	var video = req.video;
+	if(video.status == 'submitted')
+		return next(new Error('Failed to load video ' + id));
+
+	video.status = 'submitted';
+
+	video.save(function(err) {
+		if (err) {
+			return res.status(400).send({
+				message: errorHandler.getErrorMessage(err)
+			});
+		} else {
+			res.json(video);
+		}
+	});
+};
+
+/**
  * Video middleware
  */
 exports.videoByID = function(req, res, next, id) {

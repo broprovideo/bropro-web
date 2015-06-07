@@ -39,15 +39,23 @@ angular.module('videos').controller('VideosController', ['$scope', '$stateParams
 
 		$scope.update = function() {
 			var video = $scope.video;
-			console.log($scope.video);
 
 			video.$update(function() {
-				//$location.path('videos/' + video._id);
 				alert('Video saved');
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});
 		};
+
+		$scope.submit = function() {
+			var video = $scope.video;
+
+			video.$submit(function() {
+
+			}, function(errorResponse) {
+				$scope.error = errorResponse.data.message;
+			});
+		}
 
 		$scope.find = function() {
 			$scope.videos = Videos.query();

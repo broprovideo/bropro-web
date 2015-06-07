@@ -8,6 +8,11 @@ angular.module('videos').factory('Videos', ['$resource',
 		}, {
 			update: {
 				method: 'PUT'
+			},
+			submit: {
+				method: 'POST',
+				url: 'api/videos/:videoId/submit',
+				params: { videoId: '@_id' }
 			}
 		});
 	}

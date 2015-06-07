@@ -18,6 +18,9 @@ module.exports = function(app) {
 		.put(videos.update)
 		.delete(videos.delete);
 
+	app.route('/api/videos/:videoId/submit').all(videoPolicy.isAllowed)
+		.post(videos.submit);
+
 	// Finish by binding the video middleware
 	app.param('videoId', videos.videoByID);
 };

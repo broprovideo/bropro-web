@@ -25,6 +25,11 @@ var VideoSchema = new Schema({
 		default: '',
 		trim: true
 	},
+	status: {
+		type: String,
+		default: 'unsubmited',
+		trim: true
+	},
 	partitions: [{
 		type: Schema.Types.ObjectId,
 		ref: 'Partition'
