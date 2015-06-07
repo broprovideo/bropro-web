@@ -7,6 +7,8 @@ var path = require('path'),
 	mongoose = require('mongoose'),
 	Video = mongoose.model('Video'),
 	moment = require('moment'),
+	nodemailer = require('nodemailer'),
+	config = require(path.resolve('./config/config')),
 	errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 /**
@@ -111,9 +113,37 @@ exports.submit = function(req, res, next) {
 				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
+
+			// send email to user
+			res.render(path.resolve('modules/videos/server/templates/video-submitted'), {
+				email: req.user.email,
+				appName: config.app.title,
+				projectName: req.video.title,
+				url: 'http://' + req.headers.host + '/videos/' + req.video._id
+			}, function(err, emailHTML) {
+				if(err) console.log(err);
+				var smtpTransport = nodemailer.createTransport(config.mailer.options);
+				var mailOptions = {
+					to: 'tudor@bropro.video',
+					from: config.mailer.from,
+					subject: 'A Video has been just submitted',
+					html: emailHTML
+				};
+				smtpTransport.sendMail(mailOptions, function(err) {
+					if(err) {
+						console.log(err);
+					}	else {
+						console.log("Email about user"+req.user.email+" has been sent to admin");
+					}
+				});
+			});
+
 			res.json(video);
 		}
 	});
+
+
+
 };
 
 /**
