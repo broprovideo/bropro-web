@@ -23,6 +23,15 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$http
 			$http.post('/api/auth/signin', $scope.credentials).success(function(response) {
 				// If successful we assign the response to the global user model
 				$scope.authentication.user = response;
+                
+                $scope.authentication.user._id
+                $scope.authentication.user.email
+
+                mixpanel.people.set({
+                "$email": $scope.authentication.user.email,    // only special properties need the $
+                "$created": $scope.authentication.user.created,
+                "$last_login": new Date(),         // properties can be dates...
+                })
 
 				// And redirect to the index page
 				$location.path('/videos');
