@@ -117,6 +117,15 @@ for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=f.createElemen
 		ga('create', '{{googleAnalyticsTrackingID}}', 'auto');
 		ga('send', 'pageview');
 	</script>
+
+	<script type="text/javascript">
+	        mixpanel.identify(window.user._id);
+	        mixpanel.people.set({
+                "$email": window.user.email,    // only special properties need the $
+                "$created": window.user.created,
+                "$last_login": new Date(),         // properties can be dates...
+                });
+        </script>
 </body>
 
 </html>

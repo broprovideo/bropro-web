@@ -27,12 +27,6 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$http
                 $scope.authentication.user._id
                 $scope.authentication.user.email
 
-                mixpanel.people.set({
-                "$email": $scope.authentication.user.email,    // only special properties need the $
-                "$created": $scope.authentication.user.created,
-                "$last_login": new Date(),         // properties can be dates...
-                })
-
 				// And redirect to the index page
 				$location.path('/videos');
 			}).error(function(response) {
