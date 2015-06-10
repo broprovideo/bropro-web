@@ -25,12 +25,13 @@
 								<!-- <div class="dropzone" ng-model="video" upload-dropzone on-file-drop="queue"><span>Drop your video footage, photos and music file here</span></div>
 								<br>
 								<input type="file" multiple="multiple" ng-model="files" onchange="angular.element(this).scope().queue(this.files)"> -->
-								<upload-dropzone ng-model="video"></upload-dropzone>
-								<div class="list-wrap">
-									<div ng-repeat="partition in video.partitions | orderBy:predicate:reverse">
-										<upload-list partition="partition"></upload-list>
+								<upload-dropzone ng-model="video">
+									<div class="list-wrap">
+										<div ng-repeat="partition in video.partitions | orderBy:predicate:reverse">
+											<upload-list partition="partition"></upload-list>
+										</div>
 									</div>
-								</div>
+								</upload-dropzone>
 								<!-- <div class="dropzone" upload-dropzone on-file-drop="queue"><span>Drop your video footage, photos and music file here</span></div>
 								<br>
 								<input type="file" multiple="multiple" ng-model="files" onchange="angular.element(this).scope().queue(this.files)">

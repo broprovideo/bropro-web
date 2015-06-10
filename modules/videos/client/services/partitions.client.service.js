@@ -5,7 +5,7 @@ angular.module('videos').factory('Partition', ['$resource',
 	function($resource) {
 		return $resource('api/videos/:videoId/partitions/:partitionId', {
 			videoId: '@videoId',
-			parititionId: '@_id'
+			partitionId: '@_id'
 		}, {
 			update: {
 				method: 'PUT'

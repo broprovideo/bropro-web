@@ -4,6 +4,7 @@
  * Module dependencies.
  */
 var partitionPolicy = require('../policies/partitions.server.policy'),
+	videos = require('../controllers/videos.server.controller'),
 	partitions = require('../controllers/partitions.server.controller');
 
 module.exports = function(app) {
@@ -20,11 +21,12 @@ module.exports = function(app) {
 		.post(partitions.create);
 
 	// Single video routes
-	app.route('/api/videos/:videoId/partitions/:parititionId').all(partitionPolicy.isAllowed)
+	app.route('/api/videos/:videoId/partitions/:partitionId').all(partitionPolicy.isAllowed)
 		.get(partitions.read)
 		.put(partitions.update)
 		.delete(partitions.delete);
 
 	// Finish by binding the video middleware
 	app.param('partitionId', partitions.partitionByID);
+	app.param('videoId', videos.videoByID);
 };

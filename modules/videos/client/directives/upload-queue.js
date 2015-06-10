@@ -20,13 +20,14 @@ angular.module('videos')
 			onFileDrop: '=',
 			ngModel: '='
 		},
-		link: function(scope, element, attrs, controllers) {
+		transclude: true,
+		controller: function($scope, $element) {
 			console.log('File dropzone intialized');
-			var model = scope.ngModel;
+			var model = $scope.ngModel;
 
 			var checkSize, isTypeValid, processDragOverOrEnter, validMimeTypes;
 
-			scope.queue = function(files) {
+			$scope.queue = function(files) {
 
 				if(files.length) {
 					var fileList = [];
@@ -68,10 +69,13 @@ angular.module('videos')
 
 					});
 
-					scope.$apply();
+					$scope.$apply();
 				}
 			};
 
+			this.deletePartition = function(partition) {
+				Partition.delete({ videoId: partition.videoId ,partitionId: partition._id });
+			}
 
 			processDragOverOrEnter = function(event) {
 				if (event !== null) {
@@ -82,30 +86,37 @@ angular.module('videos')
 				return false;
 			};
 
-			console.log(element);
-			element.bind('dragover', processDragOverOrEnter);
-			element.bind('dragenter', processDragOverOrEnter);
-			element.bind('drop', function(event) {
+			$element.bind('dragover', processDragOverOrEnter);
+			$element.bind('dragenter', processDragOverOrEnter);
+			$element.bind('drop', function(event) {
 				var file, reader;
 				if (event !== null) {
 					event.preventDefault();
 				}
-				scope.queue(event.dataTransfer.files);
+				$scope.queue(event.dataTransfer.files);
 				return false;
 			});
 		},
 		templateUrl: '/modules/videos/directives/upload-dropzone.html'
 	};
 })
-.directive('uploadList', function($timeout, UploadQueue) {
+.directive('uploadList', function($timeout, UploadQueue, Partition) {
 	return {
-		require: [],
+		require: ['^uploadDropzone'],
 		restrict: 'E',
-		transclude: true,
 		scope: {
 			partition: '=partition'
 		},
 		link: function(scope, elements, attrs, controllers) {
+			var uploadDropzoneController = controllers[0];
+
+			scope.deletePartition = function(partition) {
+				if(partition) {
+					elements.remove();
+					uploadDropzoneController.deletePartition(partition);
+				}
+			}
+
 	    scope.partition.settings = {
 				file: scope.partition.file || null,
 				autostart: false,

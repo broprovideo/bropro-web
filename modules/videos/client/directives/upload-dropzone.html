@@ -1,3 +1,4 @@
-<div class="dropzone" upload-dropzone on-file-drop="queue"><span>Drop your video footage, photos and music file here</span></div>
+<div class="dropzone" upload-dropzone on-file-drop="queue" ondragover="processDragOverOrEnter()" ondragenter="processDragOverOrEnter()" ondrop="dragAndDrop()"><span>Drop your video footage, photos and music file here</span></div>
 <br>
 <input id="dropzone-input" type="file" multiple="multiple" ng-model="files" onchange="angular.element(this).scope().queue(this.files)">
+<div ng-transclude></div>
