@@ -25,6 +25,12 @@ var validateLocalStrategyPassword = function(password) {
  * User Schema
  */
 var UserSchema = new Schema({
+	name: {
+		type: String,
+		trim: true,
+		required: 'Please fill in your name',
+		default: '',
+	},
 	email: {
 		type: String,
 		trim: true,

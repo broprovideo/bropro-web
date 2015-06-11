@@ -16,6 +16,10 @@
 							<div class="col-md-12">
 								<form role="form" data-ng-submit="signup()">
 									<div class="form-group">
+										<label for="name">Full Name</label>
+										<input type="name" id="name" name="name" class="form-control" data-ng-model="credentials.name" placeholder="Full name">
+									</div>
+									<div class="form-group">
 										<label for="email">Email address</label>
 										<input type="email" id="email" name="email" class="form-control" data-ng-model="credentials.email" placeholder="Email">
 									</div>
