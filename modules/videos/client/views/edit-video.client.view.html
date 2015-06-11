@@ -27,7 +27,7 @@
 								<input type="file" multiple="multiple" ng-model="files" onchange="angular.element(this).scope().queue(this.files)"> -->
 								<upload-dropzone ng-model="video">
 									<div class="list-wrap">
-										<div ng-repeat="partition in video.partitions | orderBy:predicate:reverse">
+										<div ng-repeat="partition in video.partitions | orderBy:'-status'">
 											<upload-list partition="partition"></upload-list>
 										</div>
 									</div>
