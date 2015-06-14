@@ -22,18 +22,21 @@ angular.module('videos').controller('VideosController', ['$scope', '$stateParams
 		};
 
 		$scope.remove = function(video) {
-			if (video) {
-				video.$remove();
+			var result = window.confirm('Delete this videos, bro?');
+			if(result) {
+				if (video) {
+					video.$remove();
 
-				for (var i in $scope.video) {
-					if ($scope.video[i] === video) {
-						$scope.video.splice(i, 1);
+					for (var i in $scope.video) {
+						if ($scope.video[i] === video) {
+							$scope.video.splice(i, 1);
+						}
 					}
+				} else {
+					$scope.video.$remove(function() {
+						$location.path('video');
+					});
 				}
-			} else {
-				$scope.video.$remove(function() {
-					$location.path('video');
-				});
 			}
 		};
 
