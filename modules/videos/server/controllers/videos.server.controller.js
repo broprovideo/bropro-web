@@ -168,6 +168,7 @@ exports.download = function(req, res) {
 
 	res.setHeader('Content-disposition', 'attachment; filename=' + filename + '.zip');
   res.setHeader('Content-type', mimetype);
+	res.connection.setTimeout(0);
 
 	bucketZip(video.s3path).pipe(res);
 };
