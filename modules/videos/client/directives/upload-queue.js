@@ -23,7 +23,7 @@ angular.module('videos')
 		transclude: true,
 		controller: function($scope, $element) {
 			console.log('File dropzone intialized');
-			var model = $scope.ngModel;
+			$scope.model = $scope.ngModel;
 
 			var checkSize, isTypeValid, processDragOverOrEnter, validMimeTypes;
 
@@ -38,8 +38,8 @@ angular.module('videos')
 					fileList.forEach(function(file) {
 
 						// For each file list, crosscheck with existing file list
-						var index = getIndexByFilename(file.name, model.partitions);
-						var item = model.partitions[index];
+						var index = getIndexByFilename(file.name, $scope.model.partitions);
+						var item = $scope.model.partitions[index];
 
 						// after get the reply, continue if status is unfinished, prompt user 'yes' or 'no' whether user want to re upload again
 						if(item) {
@@ -53,7 +53,7 @@ angular.module('videos')
 						} else {
 							// Make a new request to upload
 							var newPartition = new Partition({
-								videoId: model._id,
+								videoId: $scope.model._id,
 								originalFileName: file.name,
 								filesize: file.size,
 							});
@@ -61,7 +61,7 @@ angular.module('videos')
 							newPartition.$save(function(response) {
 								console.log("the file is ", file);
 								response.file = file;
-								model.partitions.push(response);
+								$scope.model.partitions.push(response);
 							}, function(errorResponse) {
 								alert('Something wrong with the upload, try again')
 							});
