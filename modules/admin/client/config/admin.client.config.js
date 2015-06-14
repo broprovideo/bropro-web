@@ -14,7 +14,14 @@ angular.module('admin').run(['Menus',
 		// Add the dropdown list item
 		Menus.addSubMenuItem('topbar', 'home.admin', {
 			title: 'Users',
-			state: 'home.admin.users',
+			state: 'home.admin.users.list',
+			roles: ['admin']
+		});
+
+		// Add the dropdown list item
+		Menus.addSubMenuItem('topbar', 'home.admin', {
+			title: 'Videos',
+			state: 'home.admin.videos.list',
 			roles: ['admin']
 		});
 
