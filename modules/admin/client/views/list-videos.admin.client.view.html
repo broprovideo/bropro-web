@@ -12,9 +12,10 @@
 				<a data-ui-sref="home.admin.videos.view({ videoId: video._id })" data-ng-repeat="video in videos" class="list-group-item">
 					<h4 class="list-group-item-heading" data-ng-bind="video.title"></h4>
 					<small class="list-group-item-text">
-						Email :
-						<span data-ng-bind="video.title"></span>
-						registered on
+						Status :
+						<span ng-hide="video.status" data-ng-bind="video.status" ng-style="{}">Unsubmitted</span>
+						<span ng-show="video.status" data-ng-bind="video.status" style="font-weight: bold; color: #f00">Submitted</span>
+						created on
 						<span data-ng-bind="video.created | date:'mediumDate' "></span>
 					</small>
 				</a>
