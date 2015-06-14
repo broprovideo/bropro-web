@@ -30,6 +30,10 @@ var VideoSchema = new Schema({
 		default: 'unsubmited',
 		trim: true
 	},
+	s3path: {
+		type: String,
+		trim: true
+	},
 	partitions: [{
 		type: Schema.Types.ObjectId,
 		ref: 'Partition'

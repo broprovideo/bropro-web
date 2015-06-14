@@ -117,6 +117,7 @@ exports.submit = function(req, res, next) {
 		return next(new Error('Failed to load video ' + id));
 
 	video.status = 'submitted';
+	video.s3path = req.user.email+'/'+video.title+'-'+video.id;
 
 	video.save(function(err) {
 		if (err) {
@@ -161,14 +162,14 @@ exports.submit = function(req, res, next) {
  * Video download
  */
 exports.download = function(req, res) {
-	var url = req.user.email+'/'+req.video.title+'-'+req.video.id;
+	var video = req.video;
 	var filename = req.video.title;
 	var mimetype = mime.extension('application/zip');
 
 	res.setHeader('Content-disposition', 'attachment; filename=' + filename + '.zip');
   res.setHeader('Content-type', mimetype);
 
-	bucketZip(url).pipe(res);
+	bucketZip(video.s3path).pipe(res);
 };
 
 /**
