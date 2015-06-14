@@ -73,10 +73,6 @@ angular.module('videos')
 				}
 			};
 
-			this.deletePartition = function(partition) {
-				Partition.delete({ videoId: partition.videoId ,partitionId: partition._id });
-			}
-
 			processDragOverOrEnter = function(event) {
 				if (event !== null) {
 					event.stopPropagation();
@@ -111,9 +107,10 @@ angular.module('videos')
 			var uploadDropzoneController = controllers[0];
 
 			scope.deletePartition = function(partition) {
-				if(partition) {
+				var result = window.confirm('Delete this video, bro?');
+				if (result && partition) {
 					elements.remove();
-					uploadDropzoneController.deletePartition(partition);
+					Partition.delete({ videoId: partition.videoId ,partitionId: partition._id });
 				}
 			}
 
