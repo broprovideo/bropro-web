@@ -13,6 +13,11 @@ angular.module('videos').factory('Videos', ['$resource',
 				method: 'POST',
 				url: 'api/videos/:videoId/submit',
 				params: { videoId: '@_id' }
+			},
+			download: {
+				method: 'GET',
+				url: 'api/videos/:videoId/download',
+				params: { videoId: '@_id' }
 			}
 		});
 	}

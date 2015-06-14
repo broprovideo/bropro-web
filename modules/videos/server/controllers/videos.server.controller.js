@@ -7,10 +7,17 @@ var path = require('path'),
 	mongoose = require('mongoose'),
 	Video = mongoose.model('Video'),
 	moment = require('moment'),
+	mime = require('mime'),
 	nodemailer = require('nodemailer'),
 	config = require(path.resolve('./config/config')),
 	errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
+	var BucketZip = require('bucket-zip');
+	var bucketZip = BucketZip.connect({
+	  key: config.S3.accessKey,
+	  secret: config.S3.secretKey,
+	  bucket: config.S3.bucket
+	});
 /**
  * Create a video
  */
@@ -148,6 +155,20 @@ exports.submit = function(req, res, next) {
 
 
 
+};
+
+/**
+ * Video download
+ */
+exports.download = function(req, res) {
+	var url = req.user.email+'/'+req.video.title+'-'+req.video.id;
+	var filename = req.video.title;
+	var mimetype = mime.extension('application/zip');
+
+	res.setHeader('Content-disposition', 'attachment; filename=' + filename + '.zip');
+  res.setHeader('Content-type', mimetype);
+
+	bucketZip(url).pipe(res);
 };
 
 /**

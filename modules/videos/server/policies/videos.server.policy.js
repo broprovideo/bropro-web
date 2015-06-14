@@ -23,6 +23,9 @@ exports.invokeRolesPolicies = function() {
 		}, {
 			resources: '/api/videos/:videoId/submit',
 			permissions: '*'
+		}, {
+			resources: '/api/videos/:videoId/download',
+			permissions: '*'
 		}]
 	}, {
 		roles: ['user'],

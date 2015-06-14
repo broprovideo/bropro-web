@@ -1,0 +1,72 @@
+<section class="content">
+	<section class="container">
+		<section data-ng-controller="VideoAdminController" data-ng-init="findOne()">
+			<div class="page-header">
+				<h1>Edit Video</h1>
+			</div>
+			<div class="col-md-7">
+				<form name="videoForm" class="form-horizontal" data-ng-submit="update()" novalidate>
+					<fieldset>
+						<div class="form-group">
+							<div class="controls">
+								Video ID: <span data-ng-bind="video.id"></span>
+							</div>
+						</div>
+						<div class="form-group">
+
+							<div class="controls">
+							<h2>{{video.title}}</h2>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label" for="content">Upload Files</label>
+							<br>
+							<div class="controls">
+								<!-- <div class="dropzone" ng-model="video" upload-dropzone on-file-drop="queue"><span>Drop your video footage, photos and music file here</span></div>
+								<br>
+								<input type="file" multiple="multiple" ng-model="files" onchange="angular.element(this).scope().queue(this.files)"> -->
+								<upload-dropzone ng-model="video">
+									<div class="list-wrap">
+										<div ng-repeat="partition in video.partitions | orderBy:'-status'">
+											<upload-list partition="partition"></upload-list>
+										</div>
+									</div>
+								</upload-dropzone>
+								<!-- <div class="dropzone" upload-dropzone on-file-drop="queue"><span>Drop your video footage, photos and music file here</span></div>
+								<br>
+								<input type="file" multiple="multiple" ng-model="files" onchange="angular.element(this).scope().queue(this.files)">
+								<div class="list-wrap">
+									<div ng-repeat="partition in video.partitions | orderBy:predicate:reverse">
+										<upload-list partition="partition"></upload-list>
+									</div>
+								</div> -->
+
+							</div>
+						</div>
+
+						<div class="form-group">
+							<button class="btn" ng-click="download()">Download</button>
+						</div>
+
+						<div class="form-group line">
+							<a class="btn" ng-class="{disabled: video.status == 'submitted' }" data-ng-click="submit()">
+								<i class="glyphicon glyphicon-send"></i> {{video.status == 'submitted' ? 'Please wait while we make you a Hero...' : 'Make me a Hero!' }}
+							</a>
+							<a class="btn" ng-class="{disabled: video.status == 'submitted' }" data-ng-click="remove();">
+								<i class="glyphicon glyphicon-trash"></i> Delete Video
+							</a>
+						</div>
+						<div data-ng-show="error" class="text-danger">
+							<strong data-ng-bind="error"></strong>
+						</div>
+					</fieldset>
+				</form>
+			</div>
+			<div class="col-md-1"></div>
+			<div class="col-md-4">
+				<h2>Admin View</h2>
+				<p>Use this view to manage the videos</p>
+			</div>
+		</section>
+	</section>
+</section>
