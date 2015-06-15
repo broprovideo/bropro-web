@@ -107,11 +107,41 @@ angular.module('videos')
 			var uploadDropzoneController = controllers[0];
 
 			scope.deletePartition = function(partition) {
-				var result = window.confirm('Delete this video, bro?');
-				if (result && partition) {
-					elements.remove();
-					Partition.delete({ videoId: partition.videoId ,partitionId: partition._id });
-				}
+				swal({
+					title: 'Delete this video, bro?',
+					text: 'You wont be able to recover this item',
+					type: 'warning',
+					showCancelButton: true,
+					confirmButtonCollor: '#E61E25',
+					confirmButtonText: 'Yep!',
+					cancelButtonText: 'Nope, just kidding',
+					closeOnConfirm: false,
+					closeOnCancel: true
+				},
+				function(isConfirm) {
+					if (isConfirm) {
+						if(partition) {
+							elements.remove();
+							Partition.delete({ videoId: partition.videoId ,partitionId: partition._id });
+							swal({
+								title: 'Deleted!',
+								text: 'Your file has been deleted',
+								type: 'success',
+								timer: 1500,
+								showConfirmButton: false
+							});
+						} else {
+							swal({
+								title: 'Oooops!',
+								text: 'Something wrong when we want to delete the file',
+								type: 'error',
+								timer: 1500,
+								showConfirmButton: false
+							});
+						}
+					}
+				});
+
 			}
 
 	    scope.partition.settings = {

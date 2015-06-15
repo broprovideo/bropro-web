@@ -22,22 +22,47 @@ angular.module('videos').controller('VideosController', ['$scope', '$stateParams
 		};
 
 		$scope.remove = function(video) {
-			var result = window.confirm('Delete this videos, bro?');
-			if(result) {
-				if (video) {
-					video.$remove();
+			var video = $scope.video;
+			swal({
+				title: 'Delete this videos, bro?',
+				text: 'You wont be able to recover this item',
+				type: 'warning',
+				showCancelButton: true,
+				confirmButtonCollor: '#E61E25',
+				confirmButtonText: 'Yep!',
+				cancelButtonText: 'Nope, just kidding',
+				closeOnConfirm: false,
+				closeOnCancel: true
+			},
+			function(isConfirm) {
+				if (isConfirm) {
+					if(video) {
+						video.$remove();
 
-					for (var i in $scope.video) {
-						if ($scope.video[i] === video) {
-							$scope.video.splice(i, 1);
+						for (var i in $scope.video) {
+							if ($scope.video[i] === video) {
+								$scope.video.splice(i, 1);
+							}
 						}
-					}
-				} else {
-					$scope.video.$remove(function() {
 						$location.path('video');
-					});
+						swal({
+							title: 'Deleted!',
+							text: 'Your file has been deleted',
+							type: 'success',
+							timer: 1500,
+							showConfirmButton: false
+						});
+					} else {
+						swal({
+							title: 'Oooops!',
+							text: 'Something wrong when we want to delete the file',
+							type: 'error',
+							timer: 1500,
+							showConfirmButton: false
+						});
+					}
 				}
-			}
+			});
 		};
 
 		$scope.update = function() {
@@ -53,11 +78,41 @@ angular.module('videos').controller('VideosController', ['$scope', '$stateParams
 		$scope.submit = function() {
 			var video = $scope.video;
 
-			video.$submit(function() {
+			swal({
+				title: 'Done, bro?',
+				text: 'Make sure you upload all your footage and music that you want',
+				type: 'warning',
+				showCancelButton: true,
+				confirmButtonCollor: '#E61E25',
+				confirmButtonText: 'Let\'s do this!',
+				cancelButtonText: 'I still need to upload stuffs',
+				closeOnConfirm: false,
+				closeOnCancel: true
+			},
+			function(isConfirm) {
 
-			}, function(errorResponse) {
-				$scope.error = errorResponse.data.message;
+				if (isConfirm) {
+					video.$submit(function() {
+						swal({
+							title: 'Success!',
+							text: 'Take a seat back for a moment while we make you a hero',
+							type: 'success',
+							timer: 1500,
+							showConfirmButton: false
+						});
+					}, function(errorResponse) {
+						$scope.error = errorResponse.data.message;
+						swal({
+							title: 'Oooops!',
+							text: 'Something wrong when we want to submit this video',
+							type: 'error',
+							timer: 1500,
+							showConfirmButton: false
+						});
+					});
+				}
 			});
+
 		}
 
 		$scope.find = function() {

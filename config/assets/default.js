@@ -4,7 +4,8 @@ module.exports = {
 	client: {
 		lib: {
 			css: [
-				'public/lib/fontawesome/css/font-awesome.css'
+				'public/lib/fontawesome/css/font-awesome.css',
+				'public/lib/sweetalert/dist/sweetalert.css'
 			],
 			js: [
 				'public/lib/angular/angular.js',
@@ -16,7 +17,8 @@ module.exports = {
 				'public/lib/angular-file-upload/angular-file-upload.js',
 				'public/lib/jquery/dist/jquery.js',
 				'public/lib/mule-uploader/mule-uploader.js',
-				'public/ext/bro-uploader.js'
+				'public/ext/bro-uploader.js',
+				'public/lib/sweetalert/dist/sweetalert.min.js'
 			],
 			tests: ['public/lib/angular-mocks/angular-mocks.js']
 		},

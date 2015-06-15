@@ -6,6 +6,7 @@ module.exports = {
 			css: [
 				'public/lib/bootstrap/dist/css/bootstrap.min.css',
 				'public/lib/bootstrap/dist/css/bootstrap-theme.min.css',
+				'public/lib/sweetalert/dist/sweetalert.css'
 			],
 			js: [
 				'public/lib/angular/angular.min.js',
@@ -15,7 +16,8 @@ module.exports = {
 				'public/lib/angular-ui-utils/ui-utils.min.js',
 				'public/lib/angular-bootstrap/ui-bootstrap-tpls.min.js',
 				'public/lib/angular-file-upload/angular-file-upload.min.js',
-				'public/ext/bro-uploader.js'
+				'public/ext/bro-uploader.js',
+				'public/lib/sweetalert/dist/sweetalert.min.js'
 			]
 		},
 		css: 'public/dist/application.min.css',
