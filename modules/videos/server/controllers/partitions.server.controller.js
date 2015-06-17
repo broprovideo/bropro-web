@@ -232,16 +232,23 @@ exports.update = function(req, res) {
  */
 exports.delete = function(req, res) {
 	var partition = req.partition;
+	var video = req.video;
 
-	partition.remove(function(err) {
-		if (err) {
-			return res.status(400).send({
-				message: errorHandler.getErrorMessage(err)
-			});
-		} else {
-			res.json(partition);
-		}
-	});
+	if(video.status !== 'submitted') {
+		partition.remove(function(err) {
+			if (err) {
+				return res.status(400).send({
+					message: errorHandler.getErrorMessage(err)
+				});
+			} else {
+				res.json(partition);
+			}
+		});
+	} else {
+		return res.status(400).send({
+			message: 'Unable to delete submitted video footage'
+		});
+	}
 };
 
 /**

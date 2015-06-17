@@ -24,6 +24,7 @@ angular.module('videos')
 		controller: function($scope, $element) {
 			console.log('File dropzone intialized');
 			$scope.model = $scope.ngModel;
+			this.model = $scope.ngModel;
 
 			var checkSize, isTypeValid, processDragOverOrEnter, validMimeTypes;
 
@@ -105,6 +106,8 @@ angular.module('videos')
 		},
 		link: function(scope, elements, attrs, controllers) {
 			var uploadDropzoneController = controllers[0];
+
+			scope.isSubmitted = uploadDropzoneController.model.status === 'submitted';
 
 			scope.deletePartition = function(partition) {
 				swal({
