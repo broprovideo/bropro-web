@@ -20,13 +20,15 @@ angular.module('videos')
 			onFileDrop: '=',
 			ngModel: '='
 		},
-		link: function(scope, element, attrs, controllers) {
+		transclude: true,
+		controller: function($scope, $element) {
 			console.log('File dropzone intialized');
-			var model = scope.ngModel;
+			$scope.model = $scope.ngModel;
+			this.model = $scope.ngModel;
 
 			var checkSize, isTypeValid, processDragOverOrEnter, validMimeTypes;
 
-			scope.queue = function(files) {
+			$scope.queue = function(files) {
 
 				if(files.length) {
 					var fileList = [];
@@ -37,8 +39,8 @@ angular.module('videos')
 					fileList.forEach(function(file) {
 
 						// For each file list, crosscheck with existing file list
-						var index = getIndexByFilename(file.name, model.partitions);
-						var item = model.partitions[index];
+						var index = getIndexByFilename(file.name, $scope.model.partitions);
+						var item = $scope.model.partitions[index];
 
 						// after get the reply, continue if status is unfinished, prompt user 'yes' or 'no' whether user want to re upload again
 						if(item) {
@@ -52,7 +54,7 @@ angular.module('videos')
 						} else {
 							// Make a new request to upload
 							var newPartition = new Partition({
-								videoId: model._id,
+								videoId: $scope.model._id,
 								originalFileName: file.name,
 								filesize: file.size,
 							});
@@ -60,7 +62,7 @@ angular.module('videos')
 							newPartition.$save(function(response) {
 								console.log("the file is ", file);
 								response.file = file;
-								model.partitions.push(response);
+								$scope.model.partitions.push(response);
 							}, function(errorResponse) {
 								alert('Something wrong with the upload, try again')
 							});
@@ -68,10 +70,9 @@ angular.module('videos')
 
 					});
 
-					scope.$apply();
+					$scope.$apply();
 				}
 			};
-
 
 			processDragOverOrEnter = function(event) {
 				if (event !== null) {
@@ -82,30 +83,70 @@ angular.module('videos')
 				return false;
 			};
 
-			console.log(element);
-			element.bind('dragover', processDragOverOrEnter);
-			element.bind('dragenter', processDragOverOrEnter);
-			element.bind('drop', function(event) {
+			$element.bind('dragover', processDragOverOrEnter);
+			$element.bind('dragenter', processDragOverOrEnter);
+			$element.bind('drop', function(event) {
 				var file, reader;
 				if (event !== null) {
 					event.preventDefault();
 				}
-				scope.queue(event.dataTransfer.files);
+				$scope.queue(event.dataTransfer.files);
 				return false;
 			});
 		},
 		templateUrl: '/modules/videos/directives/upload-dropzone.html'
 	};
 })
-.directive('uploadList', function($timeout, UploadQueue) {
+.directive('uploadList', function($timeout, UploadQueue, Partition) {
 	return {
-		require: [],
+		require: ['^uploadDropzone'],
 		restrict: 'E',
-		transclude: true,
 		scope: {
 			partition: '=partition'
 		},
 		link: function(scope, elements, attrs, controllers) {
+			var uploadDropzoneController = controllers[0];
+
+			scope.isSubmitted = uploadDropzoneController.model.status === 'submitted';
+
+			scope.deletePartition = function(partition) {
+				swal({
+					title: 'Delete this video, bro?',
+					text: 'You wont be able to recover this item',
+					type: 'warning',
+					showCancelButton: true,
+					confirmButtonCollor: '#E61E25',
+					confirmButtonText: 'Yep!',
+					cancelButtonText: 'Nope, just kidding',
+					closeOnConfirm: false,
+					closeOnCancel: true
+				},
+				function(isConfirm) {
+					if (isConfirm) {
+						if(partition) {
+							elements.remove();
+							Partition.delete({ videoId: partition.videoId ,partitionId: partition._id });
+							swal({
+								title: 'Deleted!',
+								text: 'Your file has been deleted',
+								type: 'success',
+								timer: 1500,
+								showConfirmButton: false
+							});
+						} else {
+							swal({
+								title: 'Oooops!',
+								text: 'Something wrong when we want to delete the file',
+								type: 'error',
+								timer: 1500,
+								showConfirmButton: false
+							});
+						}
+					}
+				});
+
+			}
+
 	    scope.partition.settings = {
 				file: scope.partition.file || null,
 				autostart: false,

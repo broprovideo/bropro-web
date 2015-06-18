@@ -21,6 +21,9 @@ module.exports = function(app) {
 	app.route('/api/videos/:videoId/submit').all(videoPolicy.isAllowed)
 		.post(videos.submit);
 
+	app.route('/api/videos/:videoId/download').all(videoPolicy.isAllowed)
+		.get(videos.download);
+
 	// Finish by binding the video middleware
 	app.param('videoId', videos.videoByID);
 };

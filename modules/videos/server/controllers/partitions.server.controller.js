@@ -56,7 +56,8 @@ exports.getS3sign = function(req, res, next) {
 			} else {
 
 				Video.findById(req.query.videoId).exec(function(err, video) {
-					var key = req.user.email+'/'+video.id+'/'+ req.query.filename;
+					var key = req.user.email+'/'+video.title+'-'+video.id+'/'+ req.query.filename;
+					console.log(key);
 					// Create and load information to partition
 					var partition = new Partition({
 						videoId: req.query.videoId,
@@ -167,7 +168,7 @@ exports.s3chunkLoaded = function(req, res, next) {
  */
 exports.create = function(req, res) {
 	var video = req.video;
-	var key = req.user.email+'/'+video.id+'/'+ req.body.originalFileName;
+	var key = req.user.email+'/'+video.title+'-'+video.id+'/'+ req.body.originalFileName;
 
 	var partition = new Partition({
 		videoId: req.body.videoId,
@@ -231,16 +232,23 @@ exports.update = function(req, res) {
  */
 exports.delete = function(req, res) {
 	var partition = req.partition;
+	var video = req.video;
 
-	partition.remove(function(err) {
-		if (err) {
-			return res.status(400).send({
-				message: errorHandler.getErrorMessage(err)
-			});
-		} else {
-			res.json(partition);
-		}
-	});
+	if(video.status !== 'submitted') {
+		partition.remove(function(err) {
+			if (err) {
+				return res.status(400).send({
+					message: errorHandler.getErrorMessage(err)
+				});
+			} else {
+				res.json(partition);
+			}
+		});
+	} else {
+		return res.status(400).send({
+			message: 'Unable to delete submitted video footage'
+		});
+	}
 };
 
 /**
