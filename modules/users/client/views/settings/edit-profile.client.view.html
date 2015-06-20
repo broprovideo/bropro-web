@@ -2,6 +2,10 @@
 	<div class="col-xs-offset-1 col-xs-10 col-md-offset-4 col-md-4">
 		<form name="userForm" data-ng-submit="updateUserProfile(userForm.$valid)" class="signin form-horizontal" autocomplete="off">
 			<fieldset>
+			<div class="form-group">
+					<label for="name">Name</label>
+					<input type="name" id="name" name="name" class="form-control" data-ng-model="user.name" placeholder="Name">
+				</div>
 				<div class="form-group">
 					<label for="email">Email</label>
 					<input type="email" id="email" name="email" class="form-control" data-ng-model="user.email" placeholder="Email">
