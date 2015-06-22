@@ -67,13 +67,24 @@ window._fbq.push(['track', '6028368347518', {'value':'0.00','currency':'SGD'}]);
 
 
 <!-- start Mixpanel -->
-<script type="text/javascript">(function(f,b){if(!b.__SV){var a,e,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
+
+<script type="text/javascript">
+
+(function(f,b){if(!b.__SV){var a,e,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
 for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=f.createElement("script");a.type="text/javascript";a.async=!0;a.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";e=f.getElementsByTagName("script")[0];e.parentNode.insertBefore(a,e)}})(document,window.mixpanel||[]);
-    mixpanel.init("8e1fd23d33658c5de1cb4063309ad3c3");
-    mixpanel.track("create-account");
-    mixpanel.track("signup-now");
+
+if(window.location.href == "http://go.bropro.video"){
+mixpanel.init("8e1fd23d33658c5de1cb4063309ad3c3");
+} else {
+mixpanel.init("d5af8c045c1f6154a7d9aaf79ba6d87d");
+}
+
+
+mixpanel.track_forms("#registered-users", "Registered Users");
+
+  
 </script>
-<!-- end Mixpanel -->
+
 
 </head>
 
@@ -119,13 +130,36 @@ for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=f.createElemen
 	</script>
 
 	<script type="text/javascript">
-	        mixpanel.identify(window.user._id);
-	        mixpanel.people.set({
-	        	"$name": window.user.name,
-                "$email": window.user.email,    // only special properties need the $
-                "$created": window.user.created,
-                "$last_login": new Date(),         // properties can be dates...
-                });
+	if(window.location.host == "go.bropro.video" || window.location.host == "localhost:3000"){
+	mixpanel.track('Home', {
+    'page name' : "Home Page" ,
+    'url' : window.location.pathname,
+    });
+   }
+    if(window.location.pathname == "/signup"){
+    mixpanel.track('Signup Page', {
+    'page name' : "Signup Page" ,
+    'url' : window.location.pathname,
+    });	
+    }
+    if(window.location.pathname == "/videos"){
+     mixpanel.track('Signup Success', {
+    'page name' : "Videos Page" ,
+    'url' : window.location.pathname,
+    });	
+    }
+	
+	mixpanel.identify(window.user.email);
+	mixpanel.people.set({
+		"$name": window.user.name,
+        "$email": window.user.email,   
+        "$created": window.user.created,
+        "$last_login": new Date(),        
+        });
+
+
+
+
         </script>
 </body>
 

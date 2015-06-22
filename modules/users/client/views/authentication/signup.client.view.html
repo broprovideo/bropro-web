@@ -14,14 +14,14 @@
 					<div class="formy">
 						<div class="row">
 							<div class="col-md-12">
-								<form role="form" data-ng-submit="signup()">
+								<form id="registered-user" role="form" data-ng-submit="signup()">
 									<div class="form-group">
 										<label for="name">Full Name</label>
 										<input type="name" id="name" name="name" class="form-control" data-ng-model="credentials.name" placeholder="Full name">
 									</div>
 									<div class="form-group">
 										<label for="email">Email address</label>
-										<input type="email" id="email" name="email" class="form-control" data-ng-model="credentials.email" placeholder="Email">
+										<input type="email" id="email" name="email" class="form-control" data-ng-model="credentials.email" 	placeholder="Email">
 									</div>
 									<div class="form-group">
 										<label for="password">Password</label>
@@ -34,7 +34,7 @@
 										</label>
 									</div>
 									<div class="submit">
-										<button type="submit" class="btn btn-large btn-primary signup-now">Let Me In Bro</button>
+										<button type="submit" class="account-created btn btn-large btn-primary">Let Me In Bro</button>
 									</div>
 
 									<div data-ng-show="error" class="text-center text-danger">

@@ -87,16 +87,19 @@ angular.module('videos').controller('VideosController', ['$scope', '$stateParams
 				confirmButtonText: 'Let\'s do this!',
 				cancelButtonText: 'I still need to upload stuffs',
 				closeOnConfirm: false,
-				closeOnCancel: true
+				closeOnCancel: true,
 			},
 			function(isConfirm) {
 
 				if (isConfirm) {
 					video.$submit(function() {
+						mixpanel.track("Video Created", {
+                          "Video Title": video.title,
+						});
 						swal({
 							title: 'Success!',
 							text: 'Take a seat back for a moment while we make you a hero',
-							type: 'success',
+							type: 'success',	
 							timer: 1500,
 							showConfirmButton: false
 						});
