@@ -8,6 +8,7 @@ var path = require('path'),
 	Video = mongoose.model('Video'),
 	moment = require('moment'),
 	mime = require('mime'),
+	_ = require('lodash'),
 	nodemailer = require('nodemailer'),
 	config = require(path.resolve('./config/config')),
 	errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
@@ -113,8 +114,24 @@ exports.list = function(req, res) {
 exports.submit = function(req, res, next) {
 	// Submit video for processing
 	var video = req.video;
+	var partitions = req.partitions;
+
+	// Make sure video has not yet been submitted
 	if(video.status == 'submitted')
-		return next(new Error('Failed to load video ' + id));
+		return next(new Error('Video ' + id + ' has been submitted'));
+
+	// Make sure all partitions already finished been uploaded
+	if(video.partitions) {
+		var uploadFinished = true;
+		_.forEach(video.partitions, function(partition, key) {
+			if(partition.status !== 'completed') {
+				uploadFinished = false;
+			}
+		});
+
+		if(!uploadFinished)
+			return next(new Error('Partition is still being uploaded'));
+	}
 
 	video.status = 'submitted';
 	video.s3path = req.user.email+'/'+video.title+'-'+video.id;
@@ -153,9 +170,6 @@ exports.submit = function(req, res, next) {
 			res.json(video);
 		}
 	});
-
-
-
 };
 
 /**
