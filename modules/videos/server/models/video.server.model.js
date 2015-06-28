@@ -42,7 +42,7 @@ var VideoSchema = new Schema({
 		type: String,
 		default: ''
 	},
-	SendToEditor: {
+	editor: {
 		type: Schema.Types.ObjectId,
 		ref: 'User'
 	},
