@@ -34,6 +34,18 @@ var VideoSchema = new Schema({
 		type: String,
 		trim: true
 	},
+	submittedDate: {
+		type: Date,
+		default: ''
+	},
+	publicLinks: {
+		type: String,
+		default: ''
+	},
+	SendToEditor: {
+		type: Schema.Types.ObjectId,
+		ref: 'User'
+	},
 	partitions: [{
 		type: Schema.Types.ObjectId,
 		ref: 'Partition'
