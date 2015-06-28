@@ -134,6 +134,7 @@ exports.submit = function(req, res, next) {
 	}
 
 	video.status = 'submitted';
+	video.submitDate = Date.now();
 	video.s3path = req.user.email+'/'+video.title+'-'+video.id;
 
 	video.save(function(err) {
