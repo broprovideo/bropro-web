@@ -78,43 +78,84 @@ angular.module('videos').controller('VideosController', ['$scope', '$stateParams
 		$scope.submit = function() {
 			var video = $scope.video;
 
-			swal({
-				title: 'Done, bro?',
-				text: 'Make sure you upload all your footage and music that you want',
-				type: 'warning',
-				showCancelButton: true,
-				confirmButtonCollor: '#E61E25',
-				confirmButtonText: 'Let\'s do this!',
-				cancelButtonText: 'I still need to upload stuffs',
-				closeOnConfirm: false,
-				closeOnCancel: true,
-			},
-			function(isConfirm) {
+			// Validation
+			var isValid = true;
+			var errorMessage = "Error submitting, plese check the error!"
 
-				if (isConfirm) {
-					video.$submit(function() {
-						mixpanel.track("Video Created", {
-                          "Video Title": video.title,
-						});
-						swal({
-							title: 'Success!',
-							text: 'Take a seat back for a moment while we make you a hero',
-							type: 'success',	
-							timer: 1500,
-							showConfirmButton: false
-						});
-					}, function(errorResponse) {
-						$scope.error = errorResponse.data.message;
-						swal({
-							title: 'Oooops!',
-							text: 'Something wrong when we want to submit this video',
-							type: 'error',
-							timer: 1500,
-							showConfirmButton: false
-						});
-					});
+			// Disable empty video uploads
+			if(!video.partitions.length) {
+				swal({
+					title: 'Oooops!',
+					text: 'No video detected',
+					type: 'error',
+					timer: 1500,
+					showConfirmButton: false
+				});
+				isValid = false;
+				errorMessage = 'Unable to submit empty video';
+			}
+			if(video.partitions) {
+				var completed = true;
+				video.partitions.forEach(function(partition, key) {
+					if(partition.status !== 'completed') {
+						completed = false;
+					}
+				});
+				if(!completed) {
+					isValid = false;
+					errorMessage = 'Some of the vids haven\'t been finished uploded'
 				}
-			});
+			}
+			if(!isValid) {
+				swal({
+					title: 'Oooops!',
+					text: errorMessage,
+					type: 'error',
+					timer: 1500,
+					showConfirmButton: false
+				});
+			} else {
+
+				// Prompt video submititon
+				swal({
+					title: 'Done, bro?',
+					text: 'Make sure you upload all your footage and music that you want',
+					type: 'warning',
+					showCancelButton: true,
+					confirmButtonCollor: '#E61E25',
+					confirmButtonText: 'Let\'s do this!',
+					cancelButtonText: 'I still need to upload stuffs',
+					closeOnConfirm: false,
+					closeOnCancel: true,
+				},
+				function(isConfirm) {
+
+					if (isConfirm) {
+						video.$submit(function() {
+							mixpanel.track("Video Created", {
+	                          "Video Title": video.title,
+							});
+							swal({
+								title: 'Success!',
+								text: 'Take a seat back for a moment while we make you a hero',
+								type: 'success',
+								timer: 1500,
+								showConfirmButton: false
+							});
+						}, function(errorResponse) {
+							$scope.error = errorResponse.data.message;
+							swal({
+								title: 'Oooops!',
+								text: 'Something wrong when we want to submit this video',
+								type: 'error',
+								timer: 1500,
+								showConfirmButton: false
+							});
+						});
+					}
+				});
+
+			}
 
 		}
 
