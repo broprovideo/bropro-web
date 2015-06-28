@@ -34,7 +34,7 @@ var VideoSchema = new Schema({
 		type: String,
 		trim: true
 	},
-	submittedDate: {
+	submitDate: {
 		type: Date,
 		default: ''
 	},
