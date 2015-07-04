@@ -12,10 +12,10 @@
 				<a data-ng-repeat="video in videos"  data-ui-sref="home.videos.edit({videoId: video._id})" class="list-group-item">
 					<h4 class="list-group-item-heading" data-ng-bind="video.title"></h4>
 					<small class="list-group-item-text">
-						Posted on
+						Created on
 						<span data-ng-bind="video.created | date:'mediumDate'"></span>
 						by
-						<span data-ng-bind="video.user.username"></span>
+						<span data-ng-bind="video.user.email"></span>
 					</small>
 				</a>
 			</div>
