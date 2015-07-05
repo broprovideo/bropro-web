@@ -174,6 +174,7 @@ exports.create = function(req, res) {
 		videoId: req.body.videoId,
 		originalFileName: req.body.originalFileName,
 		filesize: req.body.filesize,
+		type: req.body.type,
 		key: key,
 		backupKey: shortid.generate(),
 		totalChunk: Math.ceil(req.body.filesize/6291456),

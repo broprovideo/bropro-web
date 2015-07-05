@@ -57,6 +57,7 @@ angular.module('videos')
 								videoId: $scope.model._id,
 								originalFileName: file.name,
 								filesize: file.size,
+								type: file.type
 							});
 
 							newPartition.$save(function(response) {

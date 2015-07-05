@@ -43,6 +43,11 @@ var PartitionSchema = new Schema({
 		default: '',
 		trim: true
 	},
+	type: {
+		type: String,
+		default: '',
+		trim: true
+	},
 	chunks: [Number],
 	totalChunk: {
 		type: Number,
