@@ -40,6 +40,7 @@ module.exports = {
 			}
 		}
 	},
+	metaserver: process.env.METASERVER || 'http://go.bropro.video:3001',
 	S3: {
 		accessKey: process.env.S3_AWS_ACCESS_KEY || 'AKIAIIQMKQOPPKZKAMCA',
 		secretKey: process.env.S3_AWS_SECRET_KEY || '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',
