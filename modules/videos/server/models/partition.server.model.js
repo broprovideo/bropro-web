@@ -61,6 +61,10 @@ var PartitionSchema = new Schema({
 		type: String,
 		default: ''
 	},
+	metadata: {
+		type: Schema.Types.Mixed,
+		default: {}
+	},
 	status: {
 		// Status can be either 'inprogress' or 'completed'
 		type: String,

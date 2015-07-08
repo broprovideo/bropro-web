@@ -42,6 +42,10 @@ var VideoSchema = new Schema({
 		type: String,
 		default: ''
 	},
+	duration: {
+		type: Number,
+		default: 0
+	},
 	editor: {
 		type: Schema.Types.ObjectId,
 		ref: 'User'
