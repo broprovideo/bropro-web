@@ -26,6 +26,10 @@ module.exports = function(app) {
 		.put(partitions.update)
 		.delete(partitions.delete);
 
+	// Webhooks for uploaded video
+	app.route('/api/partition/partsCompleted')
+		.all(partitions.log);
+
 	// Finish by binding the video middleware
 	app.param('partitionId', partitions.partitionByID);
 	app.param('videoId', videos.videoByID);

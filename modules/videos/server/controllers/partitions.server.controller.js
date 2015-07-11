@@ -11,6 +11,7 @@ var path = require('path'),
 	crypto = require('crypto'),
 	shortid = require('shortid'),
 	async = require('async'),
+	request = require('request'),
 	moment = require('moment-timezone'),
 	config = require(path.resolve('./config/config')),
 	errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
@@ -29,6 +30,12 @@ function getSignatureKey(key, dateStamp, regionName, serviceName) {
 
 function getFileExtension(filename) {
 	return filename.split('.').pop();
+}
+
+function getPartitionUrl(partition) {
+	var url = partition.resultPath;
+	url = url.replace('https', 'http');
+	return url;
 }
 
 /**
@@ -104,8 +111,8 @@ exports.getS3sign = function(req, res, next) {
 				chunks: partition.chunks,
 				content_type: 'application/octet-stream',
 				date: moment().toISOString(),
-				region: 'us-east-1',
-				signature: getSignatureKey(config.uploaderOptions.secretKey, moment.tz('Africa/Bissau').format('YYYYMMDD'), 'us-east-1', 's3' ),
+				region: config.uploaderOptions.region,
+				signature: getSignatureKey(config.uploaderOptions.secretKey, moment.tz('America/Toronto').format('YYYYMMDD'), config.uploaderOptions.region, 's3' ),
 				partition: partition
 			};
 			// Add optional attribute
@@ -120,6 +127,9 @@ exports.getS3sign = function(req, res, next) {
 	]);
 };
 
+/**
+ * Partition handler
+ */
 exports.s3chunkLoaded = function(req, res, next) {
 	// Find existing partition
 	Partition.findOne({
@@ -162,6 +172,57 @@ exports.s3chunkLoaded = function(req, res, next) {
 		}
 	});
 };
+
+/**
+ * Finalize partitions after all chunks are uploaded
+ */
+exports.finalizePartitions = function(req, res) {
+
+
+}
+
+exports.log = function(req, res) {
+	console.log(req);
+}
+
+/**
+ * Get file metadata once a file has been successfully uploaded into AWS server
+ * http://go.bropro.video:3001/?video_url=http://s3.amazonaws.com/beta.bropro/NkTb-idX.mp4
+ */
+exports.getFileMetadata = function(req, res) {
+
+	var partition = req.partition;
+
+	// Get duration of uploaded item
+	var vidRegex = /video\/.*/;
+	if(vidRegex.test(partition.type)) {
+		// Get metadata from metaserver
+		var url = config.metaserver+"/?video="+getPartitionUrl(partition);
+		console.log(url);
+		request({
+			method: 'GET',
+			uri: url
+		},
+		function(error, response, body) {
+			if(error) {
+				// TODO Handle error properly
+				console.log(error)
+			} else {
+				Partition.findById(partition._id, function(err, part) {
+					if(err) {
+						// TODO handle error properly
+					} else {
+						part.metadata = response;
+						console.log(response);
+						console.log('Saving metadata');
+						part.save();
+					}
+				});
+			}
+		});
+	}
+
+}
 
 /**
  * Create a partition
