@@ -1144,7 +1144,6 @@
           send: function(callback) {
               var self = this;
               self.request_date = self.get_s3_date(self.settings.auth.region);
-              console.log(self.request_date);
 
               self.headers = self.settings.headers;
               self.headers['host'] = self.settings.auth.bucket + ".s3" + utils.region_string(self.settings.auth.region) + ".amazonaws.com";
@@ -1304,7 +1303,6 @@
                 'sa-east-1': 'America/Sao_Paulo'
               };
               var awsDate = moment().tz(s3MomentTimezone[region]);
-              console.log('Getting time for '+region, awsDate.format());
               return new Date(awsDate.year(), awsDate.month(), awsDate.date(), awsDate.hour(), awsDate.minute(), awsDate.second());
           }
       };
