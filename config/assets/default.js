@@ -16,6 +16,8 @@ module.exports = {
 				'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
 				'public/lib/angular-file-upload/angular-file-upload.js',
 				'public/lib/jquery/dist/jquery.js',
+				'public/lib/moment/min/moment.min.js',
+				'public/lib/moment-timezone/moment-timezone.js',
 				'public/lib/mule-uploader/mule-uploader.js',
 				'public/ext/bro-uploader.js',
 				'public/lib/sweetalert/dist/sweetalert.min.js'

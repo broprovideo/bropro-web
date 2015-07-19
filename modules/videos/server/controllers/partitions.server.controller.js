@@ -38,6 +38,22 @@ function getPartitionUrl(partition) {
 	return url;
 }
 
+function getS3Date(region) {
+	var s3MomentTimezone = {
+		'us-east-1': 'America/New_York',
+		'us-west-2': 'America/Los_Angeles',
+		'us-west-1': 'America/Los_Angeles',
+		'eu-west-1': 'Europe/Dublin',
+		'eu-central-1': 'Europe/Berlin',
+		'ap-southeast-1': 'Asia/Singapore',
+		'ap-southeast-2': 'Australia/Sydney',
+		'ap-northeast-1': 'Asia/Tokyo',
+		'sa-east-1': 'America/Sao_Paulo'
+	};
+	var awsDate = moment().tz(s3MomentTimezone[region]);
+	return new Date(awsDate.year(), awsDate.month(), awsDate.date(), awsDate.hour(), awsDate.minute(), awsDate.second());
+}
+
 /**
  * Get S3 signature - Based on mule uploader
  * This action also will try to resume unfinished uploads
@@ -102,6 +118,9 @@ exports.getS3sign = function(req, res, next) {
 			}
 		},
 		function(err, partition) {
+
+			var s3Date = getS3Date(config.uploaderOptions.region);
+
 			// Prepare reply objects with basic required attribute
 			var response = {
 				access_key: config.uploaderOptions.accessKey,
@@ -110,9 +129,9 @@ exports.getS3sign = function(req, res, next) {
 				bucket: config.uploaderOptions.bucket,
 				chunks: partition.chunks,
 				content_type: 'application/octet-stream',
-				date: moment().toISOString(),
+				date: s3Date.toISOString(),
 				region: config.uploaderOptions.region,
-				signature: getSignatureKey(config.uploaderOptions.secretKey, moment.tz('America/Toronto').format('YYYYMMDD'), config.uploaderOptions.region, 's3' ),
+				signature: getSignatureKey(config.uploaderOptions.secretKey, moment(s3Date).format('YYYYMMDD'), config.uploaderOptions.region, 's3' ),
 				partition: partition
 			};
 			// Add optional attribute
@@ -239,7 +258,7 @@ exports.create = function(req, res) {
 		key: key,
 		backupKey: shortid.generate(),
 		totalChunk: Math.ceil(req.body.filesize/6291456),
-		resultPath: 'https://s3.amazonaws.com/'+config.uploaderOptions.bucket+'/'+key,
+		resultPath: 'https://s3-'+config.uploaderOptions.region+'.amazonaws.com/'+config.uploaderOptions.bucket+'/'+key,
 		user: req.user
 	});
 
