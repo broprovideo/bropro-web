@@ -12,6 +12,7 @@ var path = require('path'),
 	shortid = require('shortid'),
 	async = require('async'),
 	request = require('request'),
+	s3PublicUrl = require('node-s3-public-url'),
 	moment = require('moment-timezone'),
 	config = require(path.resolve('./config/config')),
 	errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
@@ -80,7 +81,6 @@ exports.getS3sign = function(req, res, next) {
 
 				Video.findById(req.query.videoId).exec(function(err, video) {
 					var key = req.user.email+'/'+video.title+'-'+video.id+'/'+ req.query.filename;
-					console.log(key);
 					// Create and load information to partition
 					var partition = new Partition({
 						videoId: req.query.videoId,
@@ -89,7 +89,9 @@ exports.getS3sign = function(req, res, next) {
 						key: key,
 						backupKey: shortid.generate(),
 						totalChunk: Math.ceil(req.query.filesize/6291456),
-						resultPath: 'https://s3.amazonaws.com/'+config.uploaderOptions.bucket+'/'+key,
+
+						// Sample s3 public url : https://s3-us-west-2.amazonaws.com/testing.bropro/indrasantosa%40live.com/Testing-Ny-l6lQ8d/IMG_0744+2.JPG
+						resultPath: 'https://s3-'+config.uploaderOptions.region+'.amazonaws.com/'+config.uploaderOptions.bucket+'/'+key,
 						user: req.user
 					});
 
@@ -193,18 +195,6 @@ exports.s3chunkLoaded = function(req, res, next) {
 };
 
 /**
- * Finalize partitions after all chunks are uploaded
- */
-exports.finalizePartitions = function(req, res) {
-
-
-}
-
-exports.log = function(req, res) {
-	console.log(req);
-}
-
-/**
  * Get file metadata once a file has been successfully uploaded into AWS server
  * http://go.bropro.video:3001/?video_url=http://s3.amazonaws.com/beta.bropro/NkTb-idX.mp4
  */
@@ -212,12 +202,14 @@ exports.getFileMetadata = function(req, res) {
 
 	var partition = req.partition;
 
+	// console.log('Getting metadata for ', partition);
+
 	// Get duration of uploaded item
 	var vidRegex = /video\/.*/;
+	console.log(partition, vidRegex.test(partition.type), partition.type);
 	if(vidRegex.test(partition.type)) {
 		// Get metadata from metaserver
-		var url = config.metaserver+"/?video="+getPartitionUrl(partition);
-		console.log(url);
+		var url = config.metaserver+"/?video_url="+getPartitionUrl(partition);
 		request({
 			method: 'GET',
 			uri: url
@@ -227,16 +219,9 @@ exports.getFileMetadata = function(req, res) {
 				// TODO Handle error properly
 				console.log(error)
 			} else {
-				Partition.findById(partition._id, function(err, part) {
-					if(err) {
-						// TODO handle error properly
-					} else {
-						part.metadata = response;
-						console.log(response);
-						console.log('Saving metadata');
-						part.save();
-					}
-				});
+				partition.metadata = body.format;
+				console.log('Saving metadata');
+				partition.save();
 			}
 		});
 	}
@@ -258,7 +243,7 @@ exports.create = function(req, res) {
 		key: key,
 		backupKey: shortid.generate(),
 		totalChunk: Math.ceil(req.body.filesize/6291456),
-		resultPath: 'https://s3-'+config.uploaderOptions.region+'.amazonaws.com/'+config.uploaderOptions.bucket+'/'+key,
+		resultPath: 'https://s3-'+config.uploaderOptions.region+'.amazonaws.com/'+config.uploaderOptions.bucket+'/'+s3PublicUrl(key),
 		user: req.user
 	});
 
@@ -354,6 +339,20 @@ exports.list = function(req, res) {
 		}
 	});
 };
+
+exports.partitionByResourceName = function(req, res, next) {
+
+	// Get resource id
+	var resp = req.body;
+	if(resp.status == 'success') {
+		console.log(resp);
+		Partition.findOne({ resultPath: resp.data.publicUrl }).exec(function(err, partition) {
+			req.partition = partition;
+			next();
+		});
+	}
+
+}
 
 /**
  * Video middleware

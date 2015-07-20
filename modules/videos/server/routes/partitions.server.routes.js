@@ -28,7 +28,7 @@ module.exports = function(app) {
 
 	// Webhooks for uploaded video
 	app.route('/api/partition/partsCompleted')
-		.all(partitions.log);
+		.all(partitions.partitionByResourceName, partitions.getFileMetadata);
 
 	// Finish by binding the video middleware
 	app.param('partitionId', partitions.partitionByID);
