@@ -16,6 +16,8 @@ module.exports = {
 				'public/lib/angular-ui-utils/ui-utils.min.js',
 				'public/lib/angular-bootstrap/ui-bootstrap-tpls.min.js',
 				'public/lib/angular-file-upload/angular-file-upload.min.js',
+				'public/lib/moment/min/moment.min.js',
+				'public/lib/moment-timezone/moment-timezone.js',
 				'public/ext/bro-uploader.js',
 				'public/lib/sweetalert/dist/sweetalert.min.js'
 			]
