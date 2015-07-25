@@ -41,7 +41,7 @@ module.exports = {
   	S3: {
   		accessKey: process.env.S3_AWS_ACCESS_KEY || 'AKIAIIQMKQOPPKZKAMCA',
   		secretKey: process.env.S3_AWS_SECRET_KEY || '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',
-  		bucket: process.env.S3_S3_BUCKET || 'beta.bropro',
+  		bucket: process.env.S3_BUCKET || 'beta.bropro',
   		region: process.env.S3_REGION || 'us-east-1'
   	},
   	uploaderOptions: {
