@@ -219,7 +219,7 @@ exports.getFileMetadata = function(req, res) {
 				// TODO Handle error properly
 				console.log(error)
 			} else {
-				partition.metadata = body.format;
+				partition.metadata = JSON.parse(body).format;
 				console.log('Saving metadata', partition.metadata);
 				partition.save();
 			}
