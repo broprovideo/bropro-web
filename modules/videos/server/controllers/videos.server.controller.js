@@ -89,15 +89,7 @@ exports.delete = function(req, res) {
  * List of Videos
  */
 exports.list = function(req, res) {
-	// If user is admin, show all the video list, else only show videos belongs to him
-	var query;
-	if(req.user.roles.indexOf('admin') !== -1) {
-		query = Video.find();
-	} else {
-		query = Video.find({user: req.user});
-	}
-
-	query.sort('-created').populate('user').exec(function(err, videos) {
+	Video.find({user: req.user}).sort('-created').populate('user').exec(function(err, videos) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
