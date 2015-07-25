@@ -220,7 +220,7 @@ exports.getFileMetadata = function(req, res) {
 				console.log(error)
 			} else {
 				partition.metadata = body.format;
-				console.log('Saving metadata');
+				console.log('Saving metadata', partition.metadata);
 				partition.save();
 			}
 		});
