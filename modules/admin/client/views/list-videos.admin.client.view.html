@@ -17,6 +17,8 @@
 						<span ng-show="video.status" data-ng-bind="video.status" style="font-weight: bold; color: #f00">Submitted</span>
 						created on
 						<span data-ng-bind="video.created | date:'mediumDate' "></span>
+						by
+						<span data-ng-bind="video.user.email | date:'mediumDate' "></span>
 					</small>
 				</a>
 			</div>
