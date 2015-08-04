@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('admin').controller('VideoAdminController', ['$scope', '$stateParams', '$location', 'Authentication', 'Videos',
+angular.module('admin').controller('VideoAdminController', ['$scope', '$stateParams', '$location', 'Authentication', 'AdminVideos',
 	function($scope, $stateParams, $location, Authentication, Videos) {
 		$scope.authentication = Authentication;
 
