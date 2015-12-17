@@ -146,7 +146,7 @@ exports.submit = function(req, res, next) {
 				if(err) console.log(err);
 				var smtpTransport = nodemailer.createTransport(config.mailer.options);
 				var mailOptions = {
-					to: 'tudor@bropro.video',
+					to: 'dylan@gomomentum.marketing',
 					from: config.mailer.from,
 					subject: 'A Video has been just submitted',
 					html: emailHTML
