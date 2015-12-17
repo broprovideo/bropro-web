@@ -28,15 +28,15 @@ module.exports = {
         callbackURL: '/api/auth/github/callback'
     },
     mailer: {
-        from: process.env.MAILER_FROM || 'MAILER_FROM',
-        options: {
-            service: process.env.MAILER_SERVICE_PROVIDER || 'MAILER_SERVICE_PROVIDER',
-            auth: {
-                user: process.env.MAILER_EMAIL_ID || 'MAILER_EMAIL_ID',
-                pass: process.env.MAILER_PASSWORD || 'MAILER_PASSWORD'
-            }
-        }
-    },
+    from: process.env.MAILER_FROM || 'dylan@gomomentum.marketing',
+    options: {
+      service: process.env.MAILER_SERVICE_PROVIDER || 'Gmail',
+      auth: {
+        user: process.env.MAILER_EMAIL_ID || 'dylan@gomomentum.marketing',
+        pass: process.env.MAILER_PASSWORD || 'theclub01'
+      }
+    }
+  },
     metaserver: process.env.METASERVER || 'http://go.bropro.video:3001',
   	S3: {
   		accessKey: process.env.S3_AWS_ACCESS_KEY || 'AKIAIIQMKQOPPKZKAMCA',
