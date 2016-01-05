@@ -141,7 +141,7 @@ exports.submit = function(req, res, next) {
 				email: req.user.email,
 				appName: config.app.title,
 				projectName: req.video.title,
-				url: 'http://' + req.headers.host + '/videos/' + req.video._id
+				url: 'http://' + req.headers.host + '/admin/videos/' + req.video._id
 			}, function(err, emailHTML) {
 				if(err) console.log(err);
 				var smtpTransport = nodemailer.createTransport(config.mailer.options);
