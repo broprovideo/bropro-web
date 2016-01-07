@@ -41,15 +41,15 @@ module.exports = {
 		}
 	},
 	metaserver: process.env.METASERVER || 'http://go.bropro.video:3001',
-	S3: {
-		accessKey: process.env.S3_AWS_ACCESS_KEY || 'AKIAIIQMKQOPPKZKAMCA',
-		secretKey: process.env.S3_AWS_SECRET_KEY || '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',
+	S3: {                                  
+		accessKey: process.env.S3_AWS_ACCESS_KEY || 'AKIAIF4VTBGCRBHVJMJQ',
+		secretKey: process.env.S3_AWS_SECRET_KEY || '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',
 		bucket: process.env.S3_BUCKET || 'beta.bropro',
 		region: process.env.S3_REGION || 'us-east-1'
 	},
 	uploaderOptions: {
-		accessKey: process.env.UPLOADER_AWS_ACCESS_KEY || 'AKIAIIQMKQOPPKZKAMCA',
-		secretKey: process.env.UPLOADER_AWS_SECRET_KEY || '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',
+		accessKey: process.env.UPLOADER_AWS_ACCESS_KEY || 'AKIAIF4VTBGCRBHVJMJQ',
+		secretKey: process.env.UPLOADER_AWS_SECRET_KEY || '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',
 		bucket: process.env.UPLOADER_S3_BUCKET || 'beta.bropro',
 		region: process.env.UPLOADER_REGION || 'us-east-1'
 	}
