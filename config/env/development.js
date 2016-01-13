@@ -54,3 +54,4 @@ module.exports = {
 		region: process.env.UPLOADER_REGION || 'us-east-1'
 	}
 };
+
